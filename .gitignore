@@ -1,0 +1,5 @@
+target/
+.project
+.classpath
+.settings/
+/stubhub-client-cxf/stubhub-client-cxf-impl/src/test/resources/stubhub.properties
