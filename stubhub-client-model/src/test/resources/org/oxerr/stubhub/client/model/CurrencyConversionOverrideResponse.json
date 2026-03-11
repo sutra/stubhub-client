@@ -1,0 +1,9 @@
+{
+	"currencyConversionOverrideId": 1,
+	"fromCurrency": "USD",
+	"toCurrency": "CAD",
+	"paymentMethodNameRegex": ".*",
+	"conversionRate": 1.250000000,
+	"conversionRateDate": "2026-01-10T00:00:00",
+	"createDate": "2026-01-10T15:44:15.1"
+}
