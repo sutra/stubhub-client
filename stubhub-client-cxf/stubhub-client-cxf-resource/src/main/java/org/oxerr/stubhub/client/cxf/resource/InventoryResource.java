@@ -4,6 +4,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.oxerr.stubhub.client.model.BulkInventoryRequest;
+import org.oxerr.stubhub.client.model.BulkProcessingResultSummaryResponse;
+import org.oxerr.stubhub.client.model.InventoryCreateRequest;
 import org.oxerr.stubhub.client.model.InventoryExportResponse;
 import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.SearchListingsResponse;
@@ -25,7 +28,7 @@ public interface InventoryResource {
 	 * Create inventory.
 	 */
 	@POST
-	ListingResponse createInventory(ListingResponse listing);
+	ListingResponse createInventory(InventoryCreateRequest listing);
 
 	/**
 	 * Search inventory.
@@ -75,5 +78,12 @@ public interface InventoryResource {
 		@QueryParam("inventoryIds") List<Long> inventoryIds,
 		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
 	);
+
+	/**
+	 * Bulk Update Listings.
+	 */
+	@POST
+	@Path("/inventory/bulk")
+	BulkProcessingResultSummaryResponse bulkUpdate(BulkInventoryRequest bulkInventoryRequest);
 
 }
