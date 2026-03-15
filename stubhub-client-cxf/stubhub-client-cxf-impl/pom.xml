@@ -30,6 +30,11 @@
 			<artifactId>jackson-jakarta-rs-json-provider</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.oxerr.stubhub.client</groupId>
+			<artifactId>stubhub-client-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>stubhub-client-cxf-resource</artifactId>
 			<version>${project.version}</version>

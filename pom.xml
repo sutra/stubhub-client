@@ -31,6 +31,7 @@
 	</properties>
 	<modules>
 		<module>stubhub-client-model</module>
+		<module>stubhub-client-core</module>
 		<module>stubhub-client-cxf</module>
 		<module>stubhub-client-coverage</module>
 	</modules>
