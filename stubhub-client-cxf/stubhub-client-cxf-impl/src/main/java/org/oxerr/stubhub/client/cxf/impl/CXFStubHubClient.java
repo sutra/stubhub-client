@@ -3,7 +3,9 @@ package org.oxerr.stubhub.client.cxf.impl;
 import java.util.List;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+import org.oxerr.stubhub.client.StubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.filter.BearerAuthFilter;
+import org.oxerr.stubhub.client.cxf.impl.inventory.CXFInventoryServce;
 import org.oxerr.stubhub.client.cxf.resource.AccountResource;
 import org.oxerr.stubhub.client.cxf.resource.CurrencyConversionOverrideResource;
 import org.oxerr.stubhub.client.cxf.resource.DealResource;
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
-public class CXFStubHubClient {
+public class CXFStubHubClient implements StubHubClient {
 
 	private final String baseAddress;
 
@@ -37,7 +39,7 @@ public class CXFStubHubClient {
 
 	private final HoldResource holdResource;
 
-	private final InventoryResource inventoryResource;
+	private final CXFInventoryServce inventoryService;
 
 	public CXFStubHubClient(String apiKey) {
 		this.baseAddress = "https://pointofsaleapi.stubhub.net";
@@ -55,7 +57,7 @@ public class CXFStubHubClient {
 		eventResource = createProxy(EventResource.class);
 		healthCheckResource = createProxy(HealthCheckResource.class);
 		holdResource = createProxy(HoldResource.class);
-		inventoryResource = createProxy(InventoryResource.class);
+		inventoryService = new CXFInventoryServce(createProxy(InventoryResource.class));
 	}
 
 	public AccountResource getAccountResource() {
@@ -82,10 +84,6 @@ public class CXFStubHubClient {
 		return holdResource;
 	}
 
-	public InventoryResource getInventoryResource() {
-		return inventoryResource;
-	}
-
 	protected <T> T createProxy(Class<T> cls) {
 		return JAXRSClientFactory.create(
 			baseAddress,
@@ -108,6 +106,11 @@ public class CXFStubHubClient {
 			.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
 			.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false)
 			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
+	@Override
+	public CXFInventoryServce inventory() {
+		return inventoryService;
 	}
 
 }
