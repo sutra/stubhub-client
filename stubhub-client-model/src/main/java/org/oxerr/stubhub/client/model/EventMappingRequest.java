@@ -22,6 +22,9 @@ public class EventMappingRequest {
 
 	private String stateProvince;
 
+	/**
+	 * CountryCode must be in ISO format (e.g. US, CA, MX, etc.)
+	 */
 	private String countryCode;
 
 	public String getEventName() {
