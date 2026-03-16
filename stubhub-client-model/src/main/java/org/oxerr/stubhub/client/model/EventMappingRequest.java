@@ -1,10 +1,16 @@
 package org.oxerr.stubhub.client.model;
 
+import java.time.LocalDateTime;
+
 public class EventMappingRequest {
 
 	private String eventName;
 
-	private String eventDate;
+	/**
+	 * Date and Time that the event start.
+	 * Must be YYYY-MM-ddTHH:mm:ss format (e.g. 2000-01-01T12:00:00)
+	 */
+	private LocalDateTime eventDate;
 
 	private String venueName;
 
@@ -26,11 +32,11 @@ public class EventMappingRequest {
 		this.eventName = eventName;
 	}
 
-	public String getEventDate() {
+	public LocalDateTime getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(String eventDate) {
+	public void setEventDate(LocalDateTime eventDate) {
 		this.eventDate = eventDate;
 	}
 
