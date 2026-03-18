@@ -83,7 +83,7 @@ public interface InventoryResource {
 	 * Bulk Update Listings.
 	 */
 	@POST
-	@Path("/inventory/bulk")
+	@Path("/bulk")
 	BulkProcessingResultSummaryResponse bulkUpdate(BulkInventoryRequest bulkInventoryRequest);
 
 }
