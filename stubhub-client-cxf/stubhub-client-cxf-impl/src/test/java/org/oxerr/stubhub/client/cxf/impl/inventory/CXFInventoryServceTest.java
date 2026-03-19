@@ -2,7 +2,10 @@ package org.oxerr.stubhub.client.cxf.impl.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
-import org.oxerr.stubhub.client.inventory.InventoryService;
+import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
+import org.oxerr.stubhub.client.model.BulkInventoryRequest;
+import org.oxerr.stubhub.client.model.EventMappingRequest;
+import org.oxerr.stubhub.client.model.PurchaseSeatingRequest;
 
 class CXFInventoryServceTest {
 
@@ -21,7 +27,7 @@ class CXFInventoryServceTest {
 
 	private final CXFStubHubClient client = CXFStubHubClients.getClient();
 
-	private final InventoryService inventoryService = client.inventory();
+	private final CXFInventoryServce inventoryService = client.inventory();
 
 	@BeforeAll
 	static void setUpBeforeClass() {
@@ -52,6 +58,48 @@ class CXFInventoryServceTest {
 	void testSeek() {
 		var r = client.inventory().resource().seek(List.of(1L), Boolean.FALSE);
 		assertNotNull(r);
+	}
+
+	@Test
+	void testBulkUpdate() throws IOException {
+		BulkInventoryRequest r = new BulkInventoryRequest();
+		r.setBulkProcessingId(new UUID(0L, 1));
+		r.setCreateRequests(createRequests());
+		inventoryService.resource().bulkUpdate(r);
+	}
+
+	private List<BulkInventoryCreateRequest> createRequests() {
+		BulkInventoryCreateRequest r = createRequest();
+		return List.of(r);
+	}
+
+	private BulkInventoryCreateRequest createRequest() {
+		BulkInventoryCreateRequest r = new BulkInventoryCreateRequest();
+		r.setCurrencyCode("USD");
+		r.setSeating(seating());
+		r.setDeliveryType("InApp");
+		r.setEventMapping(eventMapping());
+		r.setTicketCount(1);
+		r.setExternalId("1");
+		return r;
+	}
+
+	private EventMappingRequest eventMapping() {
+		EventMappingRequest r = new EventMappingRequest();
+		r.setEventName("Caribeno Champs Classic");
+		r.setEventDate(LocalDateTime.parse("2028-03-07T18:30:00"));
+		r.setVenueName("Barclays Center,Brooklyn");
+		r.setCity("Brooklyn");
+		r.setStateProvince("XX");
+		r.setCountryCode("USA");
+		return r;
+	}
+
+	private PurchaseSeatingRequest seating() {
+		PurchaseSeatingRequest seating = new PurchaseSeatingRequest();
+		seating.setSection("101");
+		seating.setRow("1");
+		return seating;
 	}
 
 }
