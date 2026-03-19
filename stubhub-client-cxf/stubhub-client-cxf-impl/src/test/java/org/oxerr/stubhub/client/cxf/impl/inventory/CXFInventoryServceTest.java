@@ -2,11 +2,11 @@ package org.oxerr.stubhub.client.cxf.impl.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +19,7 @@ import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryRequest;
 import org.oxerr.stubhub.client.model.EventMappingRequest;
+import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.PurchaseSeatingRequest;
 
 class CXFInventoryServceTest {
@@ -43,14 +44,13 @@ class CXFInventoryServceTest {
 	void testSearch() {
 		var inventorySearchCriteria = new InventorySearchCriteria();
 		inventorySearchCriteria.setMaxPageSize(10);
-		var r = inventoryService.iterateInventories(inventorySearchCriteria);
-		assertNotNull(r);
 		AtomicInteger counter = new AtomicInteger();
-		while (r.hasNext()) {
-			var listing = r.next();
+		Stream<ListingResponse> s = inventoryService.streamInventories(inventorySearchCriteria);
+		assertNotNull(s);
+		s.forEach(listing -> {
 			counter.incrementAndGet();
 			log.info("listing: {} {}", counter.get(), listing);
-		}
+		});
 	}
 
 	@Disabled("NotFound HTTP 404 Not Found")
@@ -61,7 +61,7 @@ class CXFInventoryServceTest {
 	}
 
 	@Test
-	void testBulkUpdate() throws IOException {
+	void testBulkUpdate() {
 		BulkInventoryRequest r = new BulkInventoryRequest();
 		r.setBulkProcessingId(new UUID(0L, 1));
 		r.setCreateRequests(createRequests());

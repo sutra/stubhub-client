@@ -1,5 +1,6 @@
 package org.oxerr.stubhub.client.cxf.impl.inventory;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.oxerr.stubhub.client.cxf.resource.InventoryResource;
@@ -13,11 +14,13 @@ public class InventoryIterator implements Iterator<ListingResponse> {
 
 	private final InventoryResource inventoryResource;
 
-	private int maxPageSize;
+	private final int maxPageSize;
 
-	private InventoryExportResponse inventoryExportResponse;
+	private Iterator<ListingResponse> current = Collections.emptyIterator();
 
-	private Iterator<ListingResponse> listingIterator;
+	private Long cursor;
+
+	private boolean finished;
 
 	public InventoryIterator(InventorySearchCriteria criteria, InventoryResource inventoryResource) {
 		this.criteria = criteria;
@@ -27,35 +30,45 @@ public class InventoryIterator implements Iterator<ListingResponse> {
 
 	@Override
 	public boolean hasNext() {
-		boolean hasNext = listingIterator != null && listingIterator.hasNext();
-		if (!hasNext && (inventoryExportResponse == null || inventoryExportResponse.getNumberOfItems().intValue() == maxPageSize)) {
-			inventoryExportResponse = inventoryResource.search(
-				criteria.getEventIds(),
-				criteria.getCategoryIds(),
-				criteria.getIncludeTags(),
-				criteria.getExcludeTags(),
-				criteria.getPurchaseStartDate(),
-				criteria.getPurchaseEndDate(),
-				criteria.getMaxPageSize(),
-				criteria.getPaginationToken(),
-				criteria.getIncludePastEvents(),
-				criteria.getIncludeBuyerCommissionsPerTicket(),
-				criteria.getEventMappingId(),
-				criteria.getVendorName(),
-				criteria.getEventSearchText(),
-				criteria.getTagKey(),
-				criteria.getTagValue()
-			);
-			criteria.setPaginationToken(inventoryExportResponse.getPaginationToken());
-			listingIterator = inventoryExportResponse.getInventory().iterator();
-			hasNext = listingIterator.hasNext();
-		}
-		return hasNext;
+		loadIfNeeded();
+		return current.hasNext();
 	}
 
 	@Override
 	public ListingResponse next() {
-		return listingIterator.next();
+		loadIfNeeded();
+		return current.next();
 	}
 
+	private void loadIfNeeded() {
+		if (!finished && !current.hasNext()) {
+			InventoryExportResponse page = fetchPage(cursor);
+
+			current = page.getInventory().iterator();
+			cursor = page.getPaginationToken();
+
+			finished = page.getNumberOfItems().intValue() < maxPageSize;
+		}
+
+	}
+
+	private InventoryExportResponse fetchPage(long cursor) {
+		return inventoryResource.search(
+			criteria.getEventIds(),
+			criteria.getCategoryIds(),
+			criteria.getIncludeTags(),
+			criteria.getExcludeTags(),
+			criteria.getPurchaseStartDate(),
+			criteria.getPurchaseEndDate(),
+			criteria.getMaxPageSize(),
+			cursor,
+			criteria.getIncludePastEvents(),
+			criteria.getIncludeBuyerCommissionsPerTicket(),
+			criteria.getEventMappingId(),
+			criteria.getVendorName(),
+			criteria.getEventSearchText(),
+			criteria.getTagKey(),
+			criteria.getTagValue()
+		);
+	}
 }
