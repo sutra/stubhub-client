@@ -1,0 +1,23 @@
+{
+	"bulkProcessingId": "00000000-0000-0000-0000-000000000001",
+	"createRequests": [
+		{
+			"currencyCode": "USD",
+			"deliveryType": "InApp",
+			"eventMapping": {
+				"eventName": "Caribeno Champs Classic",
+				"eventDate": "2028-03-07T18:30:00",
+				"venueName": "Barclays Center,Brooklyn",
+				"city": "Brooklyn",
+				"stateProvince": "XX",
+				"countryCode": "USA"
+			},
+			"seating": {
+				"section": "101",
+				"row": "1"
+			},
+			"ticketCount": 1,
+			"externalId": "1"
+		}
+	]
+}
