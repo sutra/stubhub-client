@@ -52,7 +52,7 @@ public class InventoryIterator implements Iterator<ListingResponse> {
 
 	}
 
-	private InventoryExportResponse fetchPage(long cursor) {
+	private InventoryExportResponse fetchPage(Long cursor) {
 		return inventoryResource.search(
 			criteria.getEventIds(),
 			criteria.getCategoryIds(),
