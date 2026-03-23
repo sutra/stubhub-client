@@ -15,6 +15,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
@@ -38,16 +39,23 @@ public interface InventoryResource {
 	 * @param includeTags Tags to include (optional)
 	 * @param excludeTags Tags to exclude (optional)
 	 * @param purchaseStartDate Inclusive starting purchase order date.
-	 * The quantity of tickets considered for the listings will only consider tickets associated to valid purchase. (optional)
+	 * The quantity of tickets considered for the listings will only consider
+	 * tickets associated to valid purchase. (optional)
 	 * @param purchaseEndDate Inclusive ending purchase order date.
-	 * The quantity of tickets considered for the listings will only consider tickets associated to valid purchase. (optional)
-	 * @param maxPageSize The max number of items returned per api call (default 500; min 1; max 5000) (optional)
-	 * @param paginationToken Values used to continue iteration for an equivalent query where last left off (optional)
-	 * @param includePastEvents To include inventory from past events in the results. Default is false (optional)
-	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
+	 * The quantity of tickets considered for the listings will only consider
+	 * tickets associated to valid purchase. (optional)
+	 * @param maxPageSize The max number of items returned per api call
+	 * (default 500; min 1; max 5000) (optional)
+	 * @param paginationToken Values used to continue iteration for
+	 * an equivalent query where last left off (optional)
+	 * @param includePastEvents To include inventory from past events in the
+	 * results. Default is false (optional)
+	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray
+	 * per Ticket. Default is false (optional)
 	 * @param eventMappingId  (optional)
 	 * @param vendorName any purchase that match the vendor name (optional)
-	 * @param eventSearchText search event name or venue name or performer name by this search text (optional)
+	 * @param eventSearchText search event name or venue name or performer name
+	 * by this search text (optional)
 	 * @param tagKey Tag key name (optional)
 	 * @param tagValue Tag value name (optional)
 	 * @return inventories.
@@ -64,7 +72,8 @@ public interface InventoryResource {
 		@QueryParam("maxPageSize") Integer maxPageSize,
 		@QueryParam("paginationToken") Long paginationToken,
 		@QueryParam("includePastEvents") Boolean includePastEvents,
-		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket,
+		@QueryParam("includeBuyerCommissionsPerTicket")
+		Boolean includeBuyerCommissionsPerTicket,
 		@QueryParam("eventMappingId") UUID eventMappingId,
 		@QueryParam("vendorName") String vendorName,
 		@QueryParam("eventSearchText") String eventSearchText,
@@ -76,7 +85,8 @@ public interface InventoryResource {
 	@Path("/seek")
 	List<SearchListingsResponse> seek(
 		@QueryParam("inventoryIds") List<Long> inventoryIds,
-		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
+		@QueryParam("includeBuyerCommissionsPerTicket")
+		Boolean includeBuyerCommissionsPerTicket
 	);
 
 	/**
@@ -84,6 +94,17 @@ public interface InventoryResource {
 	 */
 	@POST
 	@Path("/bulk")
-	BulkProcessingResultSummaryResponse bulkUpdate(BulkInventoryRequest bulkInventoryRequest);
+	BulkProcessingResultSummaryResponse bulkUpdate(
+		BulkInventoryRequest bulkInventoryRequest
+	);
+
+	/**
+	 * Get Bulk Update Listings Status.
+	 */
+	@GET
+	@Path("/bulk/{bulkProcessingId}")
+	BulkProcessingResultSummaryResponse getBulkUpdate(
+		@PathParam("bulkProcessingId") UUID bulkProcessingId
+	);
 
 }
