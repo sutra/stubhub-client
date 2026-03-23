@@ -62,10 +62,14 @@ class CXFInventoryServceTest {
 
 	@Test
 	void testBulkUpdate() {
-		BulkInventoryRequest r = new BulkInventoryRequest();
-		r.setBulkProcessingId(new UUID(0L, 1));
-		r.setCreateRequests(createRequests());
-		inventoryService.resource().bulkUpdate(r);
+		BulkInventoryRequest out = new BulkInventoryRequest();
+		out.setBulkProcessingId(new UUID(0L, 1));
+		out.setCreateRequests(createRequests());
+		var in = inventoryService.resource().bulkUpdate(out);
+		log.info("successful: {}", in::getSuccessful);
+
+		var status = inventoryService.resource().getBulkUpdate(out.getBulkProcessingId());
+		log.info("successful: {}", status::getSuccessful);
 	}
 
 	private List<BulkInventoryCreateRequest> createRequests() {
