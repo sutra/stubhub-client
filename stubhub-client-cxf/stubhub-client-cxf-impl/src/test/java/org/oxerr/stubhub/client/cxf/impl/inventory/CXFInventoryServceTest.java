@@ -1,5 +1,6 @@
 package org.oxerr.stubhub.client.cxf.impl.inventory;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
@@ -67,9 +68,7 @@ class CXFInventoryServceTest {
 		out.setCreateRequests(createRequests());
 		var in = inventoryService.resource().bulkUpdate(out);
 		log.info("successful: {}", in::getSuccessful);
-
-		var status = inventoryService.resource().getBulkUpdateStatus(out.getBulkProcessingId());
-		log.info("successful: {}", status::getSuccessful);
+		assertFalse(in.getSuccessful().booleanValue());
 	}
 
 	private List<BulkInventoryCreateRequest> createRequests() {
@@ -104,6 +103,14 @@ class CXFInventoryServceTest {
 		seating.setSection("101");
 		seating.setRow("1");
 		return seating;
+	}
+
+	@Test
+	void testGetBulkUpdateStatus() {
+		UUID bulkProcessingId = UUID.fromString("00000000-0000-0000-0500-6463f1c82af1");
+		var status = inventoryService.resource().getBulkUpdateStatus(bulkProcessingId);
+		log.info("successful: {}", status::getSuccessful);
+		assertFalse(status.getSuccessful().booleanValue());
 	}
 
 }
