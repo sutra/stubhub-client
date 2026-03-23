@@ -68,7 +68,7 @@ class CXFInventoryServceTest {
 		var in = inventoryService.resource().bulkUpdate(out);
 		log.info("successful: {}", in::getSuccessful);
 
-		var status = inventoryService.resource().getBulkUpdate(out.getBulkProcessingId());
+		var status = inventoryService.resource().getBulkUpdateStatus(out.getBulkProcessingId());
 		log.info("successful: {}", status::getSuccessful);
 	}
 

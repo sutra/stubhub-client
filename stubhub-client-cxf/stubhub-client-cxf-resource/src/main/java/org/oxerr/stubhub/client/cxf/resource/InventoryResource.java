@@ -103,7 +103,7 @@ public interface InventoryResource {
 	 */
 	@GET
 	@Path("/bulk/{bulkProcessingId}")
-	BulkProcessingResultSummaryResponse getBulkUpdate(
+	BulkProcessingResultSummaryResponse getBulkUpdateStatus(
 		@PathParam("bulkProcessingId") UUID bulkProcessingId
 	);
 
