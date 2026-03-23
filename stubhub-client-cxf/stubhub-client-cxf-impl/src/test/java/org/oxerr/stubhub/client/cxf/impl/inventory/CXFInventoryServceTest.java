@@ -41,6 +41,7 @@ class CXFInventoryServceTest {
 
 	}
 
+	@Disabled("HTTP 429 Too Many Requests")
 	@Test
 	void testSearch() {
 		var inventorySearchCriteria = new InventorySearchCriteria();
