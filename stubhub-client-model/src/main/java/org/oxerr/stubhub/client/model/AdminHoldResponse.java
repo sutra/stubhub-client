@@ -1,18 +1,18 @@
 package org.oxerr.stubhub.client.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 public class AdminHoldResponse {
 
-	private OffsetDateTime expirationDate;
+	private LocalDateTime expirationDate;
 
 	private String notes;
 
-	public OffsetDateTime getExpirationDate() {
+	public LocalDateTime getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(OffsetDateTime expirationDate) {
+	public void setExpirationDate(LocalDateTime expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 

@@ -62,6 +62,22 @@ class CXFInventoryServceTest {
 		assertNotNull(r);
 	}
 
+	@Disabled("Maybe cause: HTTP 429 Too Many Requests")
+	@Test
+	void testExport() {
+		var r = client.inventory().resource().export(
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null
+		);
+		assertNotNull(r);
+	}
+
 	@Disabled("Create inventory")
 	@Test
 	void testBulkUpdate() {
