@@ -90,6 +90,39 @@ public interface InventoryResource {
 	);
 
 	/**
+	 * Exports inventory for exchange integration. The results from this method
+	 * are sorted by reverse mutation date order.
+	 * 
+	 * @param updatedDateSince The beginning update date to be used for looking
+	 * up inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 * @param pageSize The number of results per page.
+	 * Default page size is 100. Max page size is 5000.
+	 * @param paginationToken Token used to paginate result set.
+	 * @param includePastEvents To include inventory from past events in the
+	 * results. Default is false.
+	 * @param includeBuyerCommissionsPerTicket o include buyerCommissionsArray
+	 * per Ticket. Default is false.
+	 * @param createDateFrom The beginning create date to be used for looking
+	 * up inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 * @param createDateTo The ending create date to be used for looking up
+	 * inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 * @param updatedDateTo The ending update date to be used for looking up
+	 * inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 */
+	@GET
+	@Path("/export")
+	InventoryExportResponse export(
+		@QueryParam("updatedDateSince") OffsetDateTime updatedDateSince,
+		@QueryParam("pageSize") Integer pageSize,
+		@QueryParam("paginationToken") Long paginationToken,
+		@QueryParam("includePastEvents") Boolean includePastEvents,
+		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket,
+		@QueryParam("createDateFrom") OffsetDateTime createDateFrom,
+		@QueryParam("createDateTo") OffsetDateTime createDateTo,
+		@QueryParam("updatedDateTo") OffsetDateTime updatedDateTo
+	);
+
+	/**
 	 * Bulk Update Listings.
 	 */
 	@POST
