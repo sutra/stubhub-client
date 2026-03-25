@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
+import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryRequest;
@@ -62,20 +63,14 @@ class CXFInventoryServceTest {
 		assertNotNull(r);
 	}
 
-	@Disabled("Maybe cause: HTTP 429 Too Many Requests")
+	// @Disabled("Maybe cause: HTTP 429 Too Many Requests")
 	@Test
 	void testExport() {
-		var r = client.inventory().resource().export(
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null
-		);
-		assertNotNull(r);
+		InventoryExportCriteria criteria = new InventoryExportCriteria();
+		criteria.setPageSize(5000);
+		var count = client.inventory().streamInventories(criteria).count();
+		assertNotNull(count);
+		log.info("count: {}", count);
 	}
 
 	@Disabled("Create inventory")

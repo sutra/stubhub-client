@@ -3,10 +3,14 @@ package org.oxerr.stubhub.client.cxf.impl.inventory;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.oxerr.stubhub.client.model.InventoryExportResponse;
 import org.oxerr.stubhub.client.model.ListingResponse;
 
 public abstract class InventoryIterator implements Iterator<ListingResponse> {
+
+	private final Logger log = LogManager.getLogger();
 
 	private final int pageSize;
 
@@ -15,6 +19,8 @@ public abstract class InventoryIterator implements Iterator<ListingResponse> {
 	private Long cursor;
 
 	private boolean finished;
+
+	private int loadedPageCount;
 
 	protected InventoryIterator(int pageSize) {
 		this.pageSize = pageSize;
@@ -40,6 +46,11 @@ public abstract class InventoryIterator implements Iterator<ListingResponse> {
 			cursor = page.getPaginationToken();
 
 			finished = page.getNumberOfItems().intValue() < pageSize;
+
+			loadedPageCount++;
+
+			log.trace("loaded page: loadedPageCount={}, cursor={}, numberOfItems={}, finished={}",
+				loadedPageCount, cursor, page.getNumberOfItems(), finished);
 		}
 
 	}
