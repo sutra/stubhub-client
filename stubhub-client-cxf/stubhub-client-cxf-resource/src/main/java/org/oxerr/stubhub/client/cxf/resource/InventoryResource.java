@@ -140,4 +140,24 @@ public interface InventoryResource {
 		@PathParam("bulkProcessingId") UUID bulkProcessingId
 	);
 
+	/**
+	 * Get inventory by External ID.
+	 */
+	@GET
+	@Path("/inventory/external/{externalId}")
+	ListingResponse getByExternalId(
+		@PathParam("externalId") String externalId,
+		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
+	);
+
+	/**
+	 * Get multiple inventories by External ID.
+	 */
+	@GET
+	@Path("/inventory/externals/{externalId}")
+	List<ListingResponse> getByExternalIds(
+		@PathParam("externalId") String externalId,
+		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
+	);
+
 }
