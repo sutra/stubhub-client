@@ -2,7 +2,6 @@ package org.oxerr.stubhub.client.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,7 +83,7 @@ public class ListingResponse {
 
 	private Boolean isBroadcast;
 
-	private OffsetDateTime lastPriceUpdatedDate;
+	private LocalDateTime lastPriceUpdatedDate;
 
 	private Boolean autoFulfill;
 
@@ -398,11 +397,11 @@ public class ListingResponse {
 		this.isBroadcast = isBroadcast;
 	}
 
-	public OffsetDateTime getLastPriceUpdatedDate() {
+	public LocalDateTime getLastPriceUpdatedDate() {
 		return lastPriceUpdatedDate;
 	}
 
-	public void setLastPriceUpdatedDate(OffsetDateTime lastPriceUpdatedDate) {
+	public void setLastPriceUpdatedDate(LocalDateTime lastPriceUpdatedDate) {
 		this.lastPriceUpdatedDate = lastPriceUpdatedDate;
 	}
 
