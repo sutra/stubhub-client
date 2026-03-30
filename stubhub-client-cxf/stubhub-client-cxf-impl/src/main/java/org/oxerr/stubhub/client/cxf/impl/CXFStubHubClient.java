@@ -1,6 +1,7 @@
 package org.oxerr.stubhub.client.cxf.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.oxerr.stubhub.client.StubHubClient;
@@ -41,11 +42,11 @@ public class CXFStubHubClient implements StubHubClient {
 
 	private final CXFInventoryServce inventoryService;
 
-	public CXFStubHubClient(String apiKey) {
+	public CXFStubHubClient(UUID accountId, String apiKey) {
 		this.baseAddress = "https://pointofsaleapi.stubhub.net";
 
 		JacksonJsonProvider jacksonJsonProvider = createJacksonJsonProvider();
-		BearerAuthFilter authFilter = new BearerAuthFilter(apiKey);
+		BearerAuthFilter authFilter = new BearerAuthFilter(accountId, apiKey);
 		this.providers = List.of(
 			jacksonJsonProvider,
 			authFilter
