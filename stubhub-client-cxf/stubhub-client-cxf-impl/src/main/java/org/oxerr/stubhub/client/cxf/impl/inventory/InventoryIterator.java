@@ -2,6 +2,8 @@ package org.oxerr.stubhub.client.cxf.impl.inventory;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,10 +44,10 @@ public abstract class InventoryIterator implements Iterator<ListingResponse> {
 		if (!finished && !current.hasNext()) {
 			InventoryExportResponse page = fetchPage(cursor);
 
-			current = page.getInventory().iterator();
+			current = page.getInventory() != null ? page.getInventory().iterator() : Collections.emptyIterator();
 			cursor = page.getPaginationToken();
 
-			finished = page.getNumberOfItems().intValue() < pageSize;
+			finished = Optional.ofNullable(page.getNumberOfItems()).orElse(0) < pageSize;
 
 			loadedPageCount++;
 
