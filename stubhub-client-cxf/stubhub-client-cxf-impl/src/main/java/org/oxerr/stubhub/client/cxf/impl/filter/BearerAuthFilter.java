@@ -10,18 +10,21 @@ public class BearerAuthFilter implements ClientRequestFilter {
 
 	private final UUID accountId;
 
-	private final String apiKey;
+	/**
+	 * JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"
+	 */
+	private final String token;
 
-	public BearerAuthFilter(UUID accountId, String apiKey) {
+	public BearerAuthFilter(UUID accountId, String token) {
 		this.accountId = accountId;
-		this.apiKey = apiKey;
+		this.token = token;
 	}
 
 	@Override
 	public void filter(ClientRequestContext requestContext) throws IOException {
 		var headers = requestContext.getHeaders();
 		headers.add("Account-Id", accountId);
-		headers.add("Authorization", "Bearer " + apiKey);
+		headers.add("Authorization", "Bearer " + token);
 	}
 
 }
