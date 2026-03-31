@@ -1,5 +1,6 @@
 package org.oxerr.stubhub.client.cxf.impl.resource;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
@@ -11,6 +12,7 @@ class HealthCheckResourceTest {
 
 	private HealthCheckResource healthCheckResource = client.getHealthCheckResource();
 
+	@Disabled("Requires a valid api key.")
 	@Test
 	void testGet() {
 		healthCheckResource.simple();

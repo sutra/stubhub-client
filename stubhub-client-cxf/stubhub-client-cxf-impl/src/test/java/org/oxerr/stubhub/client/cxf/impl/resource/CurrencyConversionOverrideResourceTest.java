@@ -33,12 +33,14 @@ class CurrencyConversionOverrideResourceTest {
 		assertNotNull(response);
 	}
 
+	@Disabled("Requires a valid api key.")
 	@Test
 	void testGet() {
 		var currencyConversionOverrideResources = currencyConversionOverrideResource.get();
 		assertNotNull(currencyConversionOverrideResources);
 	}
 
+	@Disabled("Requires a valid api key.")
 	@Test
 	void testDelete() {
 		Assertions.assertDoesNotThrow(() -> currencyConversionOverrideResource.delete(2L));
