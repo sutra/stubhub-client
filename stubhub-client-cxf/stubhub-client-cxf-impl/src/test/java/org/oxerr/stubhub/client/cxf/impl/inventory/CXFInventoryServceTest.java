@@ -63,7 +63,7 @@ class CXFInventoryServceTest {
 		assertNotNull(r);
 	}
 
-	// @Disabled("Maybe cause: HTTP 429 Too Many Requests")
+	@Disabled("Maybe cause: HTTP 429 Too Many Requests")
 	@Test
 	void testExport() {
 		InventoryExportCriteria criteria = new InventoryExportCriteria();
