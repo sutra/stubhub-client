@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://maven.apache.org/POM/4.0.0
+		https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.oxerr.stubhub.client.cxf</groupId>
+		<artifactId>stubhub-client-cxf</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>stubhub-client-cxf-resource</artifactId>
+	<name>StubHub.PointOfSale.ExternalApi Client - Apache CXF - Resource</name>
+	<dependencies>
+		<dependency>
+			<groupId>jakarta.ws.rs</groupId>
+			<artifactId>jakarta.ws.rs-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.oxerr.stubhub.client</groupId>
+			<artifactId>stubhub-client-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>
