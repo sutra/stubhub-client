@@ -19,6 +19,7 @@ import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
 import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
+import org.oxerr.stubhub.client.model.BulkInventoryDeleteRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryRequest;
 import org.oxerr.stubhub.client.model.EventMappingRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
@@ -79,6 +80,7 @@ class CXFInventoryServceTest {
 		BulkInventoryRequest out = new BulkInventoryRequest();
 		out.setBulkProcessingId(new UUID(0L, 1));
 		out.setCreateRequests(createRequests());
+		out.setDeleteRequests(deleteRequests());
 		var in = inventoryService.resource().bulkUpdate(out);
 		log.info("successful: {}", in::getSuccessful);
 		assertFalse(in.getSuccessful().booleanValue());
@@ -97,6 +99,17 @@ class CXFInventoryServceTest {
 		r.setEventMapping(eventMapping());
 		r.setTicketCount(1);
 		r.setExternalId("1");
+		return r;
+	}
+
+	private List<BulkInventoryDeleteRequest> deleteRequests() {
+		BulkInventoryDeleteRequest r = deleteRequest();
+		return List.of(r);
+	}
+
+	private BulkInventoryDeleteRequest deleteRequest() {
+		BulkInventoryDeleteRequest r = new BulkInventoryDeleteRequest();
+		r.setInventoryId(894641888L);
 		return r;
 	}
 
