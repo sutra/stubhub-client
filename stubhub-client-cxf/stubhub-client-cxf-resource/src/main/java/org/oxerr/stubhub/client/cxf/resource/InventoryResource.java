@@ -144,7 +144,7 @@ public interface InventoryResource {
 	 * Get inventory by External ID.
 	 */
 	@GET
-	@Path("/inventory/external/{externalId}")
+	@Path("/external/{externalId}")
 	ListingResponse getByExternalId(
 		@PathParam("externalId") String externalId,
 		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
@@ -154,7 +154,7 @@ public interface InventoryResource {
 	 * Get multiple inventories by External ID.
 	 */
 	@GET
-	@Path("/inventory/externals/{externalId}")
+	@Path("/externals/{externalId}")
 	List<ListingResponse> getByExternalIds(
 		@PathParam("externalId") String externalId,
 		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
