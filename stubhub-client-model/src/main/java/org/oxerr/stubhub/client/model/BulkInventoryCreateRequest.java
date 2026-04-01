@@ -16,6 +16,14 @@ public class BulkInventoryCreateRequest {
 
 	private BigDecimal faceValueCost;
 
+	/**
+	 * DeliveryType value:
+	 * - InApp
+	 * - PDF
+	 * - Paper
+	 * - WillCall
+	 * - MemberCard
+	 */
 	private String deliveryType;
 
 	private BigDecimal deliveryCost;
@@ -24,28 +32,79 @@ public class BulkInventoryCreateRequest {
 
 	private EventMappingRequest eventMapping;
 
+	/**
+	 * Primary Event Id is the event ID from the primary vendor.
+	 * It is used to map the event quickly.
+	 */
 	private String primaryEventId;
 
+	/**
+	 * Given a Sale can consist of tickets purchased at different times,
+	 * this should be the latest date that all tickets are in hand.
+	 * This is a seller-provided field and it does not have to coincide
+	 * with listings or purchase orders.
+	 */
 	private OffsetDateTime inHandAt;
 
+	/**
+	 * How the inventory may be split.
+	 *
+	 * Allowable values:
+	 * - Any
+	 * - None
+	 * - AvoidOne
+	 * - AvoidOneAndThree
+	 * - Pairs
+	 */
 	private String splitType;
 
+	/**
+	 * Max display quantity
+	 */
 	private Integer maxDisplayQuantity;
 
 	private PurchaseSeatingRequest seating;
 
+	/**
+	 * The number of tickets in this set.
+	 *
+	 * - For Sale, it would be the same as QuantitySold
+	 * - but this is the physical number of allocated tickets.
+	 * - For Listing for PO, it would just mean the number of tickets listed.
+	 */
 	private Integer ticketCount;
 
+	/**
+	 * List of Listing Note Request.
+	 */
 	private List<ListingNoteRequest> listingNotes;
 
+	/**
+	 * Autobroadcast listings after the purchase order is created.
+	 */
 	private Boolean autoBroadcast;
 
+	/**
+	 * Listing internal notes.
+	 */
 	private String internalNotes;
 
+	/**
+	 * PreDeliveryState Values:
+	 * - Yes
+	 * - No
+	 * - null
+	 */
 	private String preDeliveryState;
 
+	/**
+	 * Unique identifier for the inventory.
+	 */
 	private String externalId;
 
+	/**
+	 * Developer specified tags.
+	 */
 	private List<TagRequest> tags;
 
 	private InventoryAdminHoldRequest adminHold;
