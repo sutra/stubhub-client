@@ -25,22 +25,17 @@ import org.oxerr.stubhub.client.model.EventMappingRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.PurchaseSeatingRequest;
 
-class CXFInventoryServceTest {
+class CXFInventoryServiceTest {
 
 	private static final Logger log = LogManager.getLogger();
 
 	private final CXFStubHubClient client = CXFStubHubClients.getClient();
 
-	private final CXFInventoryServce inventoryService = client.inventory();
+	private final CXFInventoryService inventoryService = client.inventory();
 
 	@BeforeAll
 	static void setUpBeforeClass() {
-		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
-		System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
-		System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true");
-		System.setProperty("com.sun.xml.ws.transport.http.HttpAdapter.dump", "true");
-		System.setProperty("com.sun.xml.internal.ws.transport.http.HttpAdapter.dump", "true");
-
+		CXFStubHubClients.enableLogging();
 	}
 
 	@Disabled("HTTP 429 Too Many Requests")

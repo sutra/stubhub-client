@@ -8,11 +8,11 @@ import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.inventory.InventoryService;
 import org.oxerr.stubhub.client.model.ListingResponse;
 
-public class CXFInventoryServce implements InventoryService {
+public class CXFInventoryService implements InventoryService {
 
 	private final InventoryResource inventoryResource;
 
-	public CXFInventoryServce(InventoryResource inventoryResource) {
+	public CXFInventoryService(InventoryResource inventoryResource) {
 		this.inventoryResource = inventoryResource;
 	}
 
