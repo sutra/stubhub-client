@@ -57,6 +57,13 @@ public class BulkInventoryUpdateRequest {
 
 	private Long inventoryId;
 
+	public BulkInventoryUpdateRequest() {
+	}
+
+	public BulkInventoryUpdateRequest(Long inventoryId) {
+		this.inventoryId = inventoryId;
+	}
+
 	public List<InventoryPriceUpdateRequest> getPrices() {
 		return prices;
 	}
