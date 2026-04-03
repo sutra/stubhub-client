@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class ListingResponse {
 
 	private EventMappingResponse eventMapping;
@@ -435,6 +437,11 @@ public class ListingResponse {
 
 	public void setExchangePosId(Long exchangePosId) {
 		this.exchangePosId = exchangePosId;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }
