@@ -4,10 +4,21 @@ import java.math.BigDecimal;
 
 public class UpdateListingPricingSettingsRequest {
 
+	/**
+	 * Flag to control whether auto-pricing should be enabled for the listing.
+	 */
 	private Boolean autoPricingEnabled;
 
+	/**
+	 * The minimum amount inventory can be priced at. Certain users can price
+	 * below the floor if a warning is accepted.
+	 */
 	private BigDecimal netProceedsFloor;
 
+	/**
+	 * The maximum amount inventory can be priced at. Certain users can price
+	 * above the ceiling if a warning is accepted.
+	 */
 	private BigDecimal netProceedsCeiling;
 
 	private CompListingSettingsRequest compListingSettings;

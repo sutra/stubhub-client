@@ -9,6 +9,9 @@ public class BulkInventoryUpdateRequest {
 
 	private List<InventoryBroadcastUpdateRequest> broadcastStatuses;
 
+	/**
+	 * The person or pricing strategy whose currently pricing the tickets.
+	 */
 	private String pricerUserId;
 
 	private List<InventoryBarcodeUpdateRequest> barcodes;
@@ -19,34 +22,61 @@ public class BulkInventoryUpdateRequest {
 
 	private InventoryPricingSettingRequest pricingSetting;
 
+	/**
+	 * Pre-Upload ETickets
+	 */
 	private List<ETicketUploadRequest> eTickets;
 
+	/**
+	 * Developer specified tags
+	 */
 	private List<TagRequest> tags;
 
 	private String internalNotes;
 
 	private List<MarketplaceSeatingOverrideUpdateRequest> marketplaceSeatingOverrides;
 
+	/**
+	 * Upload proof of ticket ownership
+	 */
 	private List<FileRequest> proofOfOwnership;
 
+	/**
+	 * The latest date that all tickets are in hand.
+	 */
 	private String inHandAt;
 
-	private String splitType;
+	private ApiSplitType splitType;
 
-	private String deliveryType;
+	private ApiDeliveryType deliveryType;
 
 	private List<TicketTypeOverrideRequest> ticketTypeOverrides;
 
 	private InventoryAdminHoldRequest adminHold;
 
+	/**
+	 * List of Listing Note Request
+	 */
 	private List<ListingNoteRequest> listingNotes;
 
+	/**
+	 * Max display quantity
+	 */
 	private Integer maxDisplayQuantity;
 
+	/**
+	 * Hide seats from marketplace
+	 */
 	private Boolean hideSeats;
 
+	/**
+	 * Should auto fulfill
+	 */
 	private Boolean autoFulfill;
 
+	/**
+	 * Unique identifier for the inventory
+	 */
 	private String externalId;
 
 	private BigDecimal unitCost;
@@ -169,19 +199,19 @@ public class BulkInventoryUpdateRequest {
 		this.inHandAt = inHandAt;
 	}
 
-	public String getSplitType() {
+	public ApiSplitType getSplitType() {
 		return splitType;
 	}
 
-	public void setSplitType(String splitType) {
+	public void setSplitType(ApiSplitType splitType) {
 		this.splitType = splitType;
 	}
 
-	public String getDeliveryType() {
+	public ApiDeliveryType getDeliveryType() {
 		return deliveryType;
 	}
 
-	public void setDeliveryType(String deliveryType) {
+	public void setDeliveryType(ApiDeliveryType deliveryType) {
 		this.deliveryType = deliveryType;
 	}
 

@@ -2,33 +2,33 @@ package org.oxerr.stubhub.client.model;
 
 public class InventoryBroadcastUpdateRequest {
 
-	private String marketplace;
+	private ApiMarketplace marketplace;
 
-	private String marketplaceBroadcastState;
+	private ApiMarketplaceBroadcastState marketplaceBroadcastState;
 
-	private String posBroadcastState;
+	private ApiPosBroadcastState posBroadcastState;
 
-	public String getMarketplace() {
+	public ApiMarketplace getMarketplace() {
 		return marketplace;
 	}
 
-	public void setMarketplace(String marketplace) {
+	public void setMarketplace(ApiMarketplace marketplace) {
 		this.marketplace = marketplace;
 	}
 
-	public String getMarketplaceBroadcastState() {
+	public ApiMarketplaceBroadcastState getMarketplaceBroadcastState() {
 		return marketplaceBroadcastState;
 	}
 
-	public void setMarketplaceBroadcastState(String marketplaceBroadcastState) {
+	public void setMarketplaceBroadcastState(ApiMarketplaceBroadcastState marketplaceBroadcastState) {
 		this.marketplaceBroadcastState = marketplaceBroadcastState;
 	}
 
-	public String getPosBroadcastState() {
+	public ApiPosBroadcastState getPosBroadcastState() {
 		return posBroadcastState;
 	}
 
-	public void setPosBroadcastState(String posBroadcastState) {
+	public void setPosBroadcastState(ApiPosBroadcastState posBroadcastState) {
 		this.posBroadcastState = posBroadcastState;
 	}
 

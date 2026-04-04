@@ -2,18 +2,18 @@ package org.oxerr.stubhub.client.model;
 
 public class ETicketUploadRequest {
 
-	private UserDocumentFileRequest _file;
+	private UserDocumentFileRequest file;
 
 	private Long ticketId;
 
 	private Boolean isDelete;
 
-	public UserDocumentFileRequest get_file() {
-		return _file;
+	public UserDocumentFileRequest getFile() {
+		return file;
 	}
 
-	public void set_file(UserDocumentFileRequest _file) {
-		this._file = _file;
+	public void setFile(UserDocumentFileRequest file) {
+		this.file = file;
 	}
 
 	public Long getTicketId() {

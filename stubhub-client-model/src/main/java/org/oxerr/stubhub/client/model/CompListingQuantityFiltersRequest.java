@@ -4,8 +4,14 @@ import java.util.List;
 
 public class CompListingQuantityFiltersRequest {
 
+	/**
+	 * Exact quantities to filter comparable listings by.
+	 */
 	private List<Integer> exactQuantities;
 
+	/**
+	 * Minimum quantity to filter comparable listings by.
+	 */
 	private Integer greaterThanOrEqualToQuantity;
 
 	public List<Integer> getExactQuantities() {
