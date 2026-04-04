@@ -18,6 +18,7 @@ import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
 import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
+import org.oxerr.stubhub.client.model.ApiDeliveryType;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryDeleteRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryRequest;
@@ -90,7 +91,7 @@ class CXFInventoryServiceTest {
 		BulkInventoryCreateRequest r = new BulkInventoryCreateRequest();
 		r.setCurrencyCode("USD");
 		r.setSeating(seating());
-		r.setDeliveryType("InApp");
+		r.setDeliveryType(ApiDeliveryType.IN_APP);
 		r.setEventMapping(eventMapping());
 		r.setTicketCount(1);
 		r.setExternalId("1");
