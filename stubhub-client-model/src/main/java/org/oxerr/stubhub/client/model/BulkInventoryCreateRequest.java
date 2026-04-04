@@ -16,15 +16,7 @@ public class BulkInventoryCreateRequest {
 
 	private BigDecimal faceValueCost;
 
-	/**
-	 * DeliveryType value:
-	 * - InApp
-	 * - PDF
-	 * - Paper
-	 * - WillCall
-	 * - MemberCard
-	 */
-	private String deliveryType;
+	private ApiDeliveryType deliveryType;
 
 	private BigDecimal deliveryCost;
 
@@ -56,7 +48,7 @@ public class BulkInventoryCreateRequest {
 	 * - AvoidOneAndThree
 	 * - Pairs
 	 */
-	private String splitType;
+	private ApiSplitType splitType;
 
 	/**
 	 * Max display quantity
@@ -155,11 +147,11 @@ public class BulkInventoryCreateRequest {
 		this.faceValueCost = faceValueCost;
 	}
 
-	public String getDeliveryType() {
+	public ApiDeliveryType getDeliveryType() {
 		return deliveryType;
 	}
 
-	public void setDeliveryType(String deliveryType) {
+	public void setDeliveryType(ApiDeliveryType deliveryType) {
 		this.deliveryType = deliveryType;
 	}
 
@@ -203,11 +195,11 @@ public class BulkInventoryCreateRequest {
 		this.inHandAt = inHandAt;
 	}
 
-	public String getSplitType() {
+	public ApiSplitType getSplitType() {
 		return splitType;
 	}
 
-	public void setSplitType(String splitType) {
+	public void setSplitType(ApiSplitType splitType) {
 		this.splitType = splitType;
 	}
 

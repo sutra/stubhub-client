@@ -1,16 +1,25 @@
 package org.oxerr.stubhub.client.model;
 
+import java.time.LocalDateTime;
+
 public class InventoryAdminHoldRequest {
 
-	private String expirationDate;
+	/**
+	 * DateTime in UTC that the admin hold will expire.
+	 * Must be YYYY-MM-ddTHH:mm:ss format (e.g. 2000-01-01T12:00:00)
+	 */
+	private LocalDateTime expirationDate;
 
+	/**
+	 * Admin notes with 4000 characters limit.
+	 */
 	private String notes;
 
-	public String getExpirationDate() {
+	public LocalDateTime getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate(LocalDateTime expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 

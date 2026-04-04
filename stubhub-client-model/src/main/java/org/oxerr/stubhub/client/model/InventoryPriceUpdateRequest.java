@@ -4,14 +4,29 @@ import java.math.BigDecimal;
 
 public class InventoryPriceUpdateRequest {
 
+	/**
+	 * AllInPrice is the broadcasted price with taxes / fees
+	 */
 	private BigDecimal allInPrice;
 
+	/**
+	 * ListPrice is unit price
+	 */
 	private BigDecimal listPrice;
 
-	private String marketplace;
+	private ApiMarketplace marketplace;
 
+	/**
+	 * Manually set the markup specific to the current marketplace listing.
+	 * If not set or False, AllInPrice or ListPrice must be provided for price update.
+	 */
 	private BigDecimal marketplaceMarkup;
 
+	/**
+	 * When the field is set to True, AllInPrice or ListPrice must be provided
+	 * for price update. If not set or False, price update will use AllInPrice,
+	 * or ListPrice, or derived prices from MarketplaceMarkup.
+	 */
 	private Boolean priceByMarketplace;
 
 	public BigDecimal getAllInPrice() {
@@ -30,11 +45,11 @@ public class InventoryPriceUpdateRequest {
 		this.listPrice = listPrice;
 	}
 
-	public String getMarketplace() {
+	public ApiMarketplace getMarketplace() {
 		return marketplace;
 	}
 
-	public void setMarketplace(String marketplace) {
+	public void setMarketplace(ApiMarketplace marketplace) {
 		this.marketplace = marketplace;
 	}
 
