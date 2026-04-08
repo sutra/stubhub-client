@@ -145,7 +145,7 @@ class CXFInventoryServiceTest {
 	@Disabled("NotFound HTTP 404 Not Found")
 	@Test
 	void testSeek() {
-		var r = client.inventory().resource().seek(List.of(1L), Boolean.FALSE);
+		var r = client.inventory().resource().seek(List.of(1L), Boolean.FALSE, null);
 		assertNotNull(r);
 	}
 
