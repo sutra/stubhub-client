@@ -11,6 +11,7 @@ import org.oxerr.stubhub.client.model.InventoryExportResponse;
 import org.oxerr.stubhub.client.model.InventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.SearchListingsResponse;
+import org.oxerr.stubhub.client.model.SeekListingsRequest;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -139,7 +140,7 @@ public interface InventoryResource {
 	 * <p><b>200</b> - Success
 	 * @param inventoryIds Inventory or Listing Ids to query and return (optional)
 	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
-	 * @param seekListingsRequest  (optional)
+	 * @param seekListingsRequest (optional)
 	 * @return inventories.
 	 */
 	@GET
@@ -147,7 +148,8 @@ public interface InventoryResource {
 	List<SearchListingsResponse> seek(
 		@QueryParam("inventoryIds") List<Long> inventoryIds,
 		@QueryParam("includeBuyerCommissionsPerTicket")
-		Boolean includeBuyerCommissionsPerTicket
+		Boolean includeBuyerCommissionsPerTicket,
+		SeekListingsRequest seekListingsRequest
 	);
 
 	/**
@@ -190,7 +192,6 @@ public interface InventoryResource {
 	 *
 	 * <p><b>400</b> - Bad Request
 	 * <p><b>200</b> - Success
-	 * @param UNKNOWN_PARAMETER_NAME Account-Id used for impersonation (optional)
 	 * @param bulkInventoryRequest  (optional)
 	 * @return the bulk processing result summary response which contains
 	 * the bulk processing id to track the status of the bulk update request.
