@@ -21,7 +21,6 @@ import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.model.ApiDeliveryType;
 import org.oxerr.stubhub.client.model.ApiMarketplace;
-import org.oxerr.stubhub.client.model.ApiMarketplaceBroadcastState;
 import org.oxerr.stubhub.client.model.ApiPosBroadcastState;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryDeleteRequest;
@@ -47,6 +46,18 @@ class CXFInventoryServiceTest {
 		CXFStubHubClients.enableLogging();
 	}
 
+	@Disabled("Requires token")
+	@Test
+	void testGetInventory() {
+		long inventoryId = 895113502L;
+		var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
+		assertNotNull(inventory);
+		log.info("inventory: {}", inventory);
+		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
+		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
+		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+	}
+
 	@Disabled("Update broadcast with update inventory")
 	@Test
 	void testUpdateBroadcast() {
@@ -64,6 +75,15 @@ class CXFInventoryServiceTest {
 		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
 		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
 		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+
+		try {
+			Thread.sleep(60_000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		testGetInventory();
 	}
 
 	@Disabled("Update broadcast with bulk update")
@@ -89,11 +109,22 @@ class CXFInventoryServiceTest {
 		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
 		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
 		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+
+		log.info("wait for 60 seconds...");
+
+		try {
+			Thread.sleep(60_000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		testGetInventory();
 	}
 
 	private BulkInventoryRequest bulkRequest(long inventoryId) {
 		BulkInventoryRequest req = new BulkInventoryRequest();
-		req.setBulkProcessingId(new UUID(0L, 2));
+		req.setBulkProcessingId(new UUID(0L, 4));
 		req.setUpdateRequests(List.of(bulkUpdateRequest(inventoryId)));
 		return req;
 	}
@@ -123,7 +154,7 @@ class CXFInventoryServiceTest {
 	private InventoryBroadcastUpdateRequest broadcastUpdateRequest() {
 		var broadcastUpdateRequest =  new InventoryBroadcastUpdateRequest();
 		broadcastUpdateRequest.setMarketplace(ApiMarketplace.STUB_HUB);
-		broadcastUpdateRequest.setMarketplaceBroadcastState(ApiMarketplaceBroadcastState.LISTED);
+		// broadcastUpdateRequest.setMarketplaceBroadcastState(ApiMarketplaceBroadcastState.LISTED);
 		broadcastUpdateRequest.setPosBroadcastState(ApiPosBroadcastState.LIST);
 		return broadcastUpdateRequest;
 	}
