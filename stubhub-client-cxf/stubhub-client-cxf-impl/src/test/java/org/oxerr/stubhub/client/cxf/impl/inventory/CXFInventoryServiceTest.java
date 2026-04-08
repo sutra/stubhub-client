@@ -30,6 +30,7 @@ import org.oxerr.stubhub.client.model.BulkInventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.EventMappingRequest;
 import org.oxerr.stubhub.client.model.InventoryBroadcastUpdateRequest;
 import org.oxerr.stubhub.client.model.InventoryPriceUpdateRequest;
+import org.oxerr.stubhub.client.model.InventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.PurchaseSeatingRequest;
 
@@ -48,6 +49,25 @@ class CXFInventoryServiceTest {
 
 	@Test
 	void testUpdateBroadcast() {
+		long inventoryId = 895113502L;
+
+		// bulk update
+		var res = inventoryService.resource().updateInventory(inventoryId, updateRequest());
+
+		log.info("res: {}", res);
+
+		// check inventory
+		var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
+		assertNotNull(inventory);
+		log.info("inventory: {}", inventory);
+		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
+		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
+		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+	}
+
+	@Disabled("Update broadcast with bulk update")
+	@Test
+	void testBulkUpdateBroadcast() {
 		long inventoryId = 895113502L;
 
 		BulkInventoryRequest req = bulkRequest(inventoryId);
@@ -73,13 +93,20 @@ class CXFInventoryServiceTest {
 	private BulkInventoryRequest bulkRequest(long inventoryId) {
 		BulkInventoryRequest req = new BulkInventoryRequest();
 		req.setBulkProcessingId(new UUID(0L, 2));
-		req.setUpdateRequests(List.of(updateRequest(inventoryId)));
+		req.setUpdateRequests(List.of(bulkUpdateRequest(inventoryId)));
 		return req;
 	}
 
-	private BulkInventoryUpdateRequest updateRequest(long inventoryId) {
+	private BulkInventoryUpdateRequest bulkUpdateRequest(long inventoryId) {
 		BulkInventoryUpdateRequest updateRequest = new BulkInventoryUpdateRequest();
 		updateRequest.setInventoryId(inventoryId);
+		updateRequest.setPrices(List.of(inventoryPriceUpdateRequest()));
+		updateRequest.setBroadcastStatuses(List.of(broadcastUpdateRequest()));
+		return updateRequest;
+	}
+
+	private InventoryUpdateRequest updateRequest() {
+		InventoryUpdateRequest updateRequest = new InventoryUpdateRequest();
 		updateRequest.setPrices(List.of(inventoryPriceUpdateRequest()));
 		updateRequest.setBroadcastStatuses(List.of(broadcastUpdateRequest()));
 		return updateRequest;
