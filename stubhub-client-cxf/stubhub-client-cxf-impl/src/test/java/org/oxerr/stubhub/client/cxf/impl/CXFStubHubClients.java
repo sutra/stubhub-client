@@ -10,7 +10,7 @@ public final class CXFStubHubClients {
 	public static CXFStubHubClient getClient() {
 		Properties props = getProps();
 		UUID accountId = UUID.fromString(props.getProperty("accountId"));
-		String apiKey = props.getProperty("apiKey");
+		String apiKey = props.getProperty("token");
 
 		return new CXFStubHubClient(accountId, apiKey);
 	}
