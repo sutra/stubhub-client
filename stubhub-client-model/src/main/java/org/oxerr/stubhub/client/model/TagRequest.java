@@ -4,17 +4,24 @@ import java.util.List;
 
 public class TagRequest {
 
+	/**
+	 * Tag name to be associated with a listing, sale, or purchase order
+	 */
 	private String name;
 
+	/**
+	 * An array of stringified JSON values associated to the tag name.
+	 * The string JSON array length must not exceed 2000 characters
+	 */
 	private List<String> values;
 
-	private String valueDataType;
+	private ApiTagValueDataType valueDataType;
 
 	private Boolean isDelete;
 
 	private Boolean isPersistentTag;
 
-	private String tagValueInheritMode;
+	private ApiTagValueInheritMode tagValueInheritMode;
 
 	public String getName() {
 		return name;
@@ -32,11 +39,11 @@ public class TagRequest {
 		this.values = values;
 	}
 
-	public String getValueDataType() {
+	public ApiTagValueDataType getValueDataType() {
 		return valueDataType;
 	}
 
-	public void setValueDataType(String valueDataType) {
+	public void setValueDataType(ApiTagValueDataType valueDataType) {
 		this.valueDataType = valueDataType;
 	}
 
@@ -56,11 +63,11 @@ public class TagRequest {
 		this.isPersistentTag = isPersistentTag;
 	}
 
-	public String getTagValueInheritMode() {
+	public ApiTagValueInheritMode getTagValueInheritMode() {
 		return tagValueInheritMode;
 	}
 
-	public void setTagValueInheritMode(String tagValueInheritMode) {
+	public void setTagValueInheritMode(ApiTagValueInheritMode tagValueInheritMode) {
 		this.tagValueInheritMode = tagValueInheritMode;
 	}
 
