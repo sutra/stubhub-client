@@ -47,6 +47,7 @@ class CXFInventoryServiceTest {
 		CXFStubHubClients.enableLogging();
 	}
 
+	@Disabled("Update broadcast with update inventory")
 	@Test
 	void testUpdateBroadcast() {
 		long inventoryId = 895113502L;
