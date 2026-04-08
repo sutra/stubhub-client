@@ -32,6 +32,20 @@ public interface InventoryResource {
 	ListingResponse createInventory(InventoryCreateRequest listing);
 
 	/**
+	 * Get inventory by ID.
+	 *
+	 * @param inventoryId The ID of the inventory to return (required)
+	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
+	 * @return the inventory for the given ID.
+	 */
+	@GET
+	@Path("/{inventoryId}")
+	List<ListingResponse> getInventory(
+		@PathParam("inventoryId") Long inventoryId,
+		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
+	);
+
+	/**
 	 * Search inventory.
 	 *
 	 * @param eventIds Viagogo Event Ids to include (optional)

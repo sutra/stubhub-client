@@ -3,6 +3,7 @@ package org.oxerr.stubhub.client.cxf.impl.inventory;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -19,10 +20,16 @@ import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
 import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.model.ApiDeliveryType;
+import org.oxerr.stubhub.client.model.ApiMarketplace;
+import org.oxerr.stubhub.client.model.ApiMarketplaceBroadcastState;
+import org.oxerr.stubhub.client.model.ApiPosBroadcastState;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryDeleteRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryRequest;
+import org.oxerr.stubhub.client.model.BulkInventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.EventMappingRequest;
+import org.oxerr.stubhub.client.model.InventoryBroadcastUpdateRequest;
+import org.oxerr.stubhub.client.model.InventoryPriceUpdateRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.PurchaseSeatingRequest;
 
@@ -37,6 +44,60 @@ class CXFInventoryServiceTest {
 	@BeforeAll
 	static void setUpBeforeClass() {
 		CXFStubHubClients.enableLogging();
+	}
+
+	@Test
+	void testUpdateBroadcast() {
+		long inventoryId = 895113502L;
+
+		BulkInventoryRequest req = bulkRequest(inventoryId);
+
+		// bulk update
+		var res = inventoryService.resource().bulkUpdate(req);
+
+		log.info("successful: {}", res::getSuccessful);
+		assertFalse(res.getSuccessful().booleanValue());
+
+		// get bulk update status
+		inventoryService.resource().getBulkUpdateStatus(req.getBulkProcessingId());
+
+		// check inventory
+		var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
+		assertNotNull(inventory);
+		log.info("inventory: {}", inventory);
+		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
+		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
+		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+	}
+
+	private BulkInventoryRequest bulkRequest(long inventoryId) {
+		BulkInventoryRequest req = new BulkInventoryRequest();
+		req.setBulkProcessingId(new UUID(0L, 2));
+		req.setUpdateRequests(List.of(updateRequest(inventoryId)));
+		return req;
+	}
+
+	private BulkInventoryUpdateRequest updateRequest(long inventoryId) {
+		BulkInventoryUpdateRequest updateRequest = new BulkInventoryUpdateRequest();
+		updateRequest.setInventoryId(inventoryId);
+		updateRequest.setPrices(List.of(inventoryPriceUpdateRequest()));
+		updateRequest.setBroadcastStatuses(List.of(broadcastUpdateRequest()));
+		return updateRequest;
+	}
+
+	private InventoryPriceUpdateRequest inventoryPriceUpdateRequest() {
+		InventoryPriceUpdateRequest inventoryPriceUpdateRequest = new InventoryPriceUpdateRequest();
+		inventoryPriceUpdateRequest.setListPrice(new BigDecimal("10000"));
+		inventoryPriceUpdateRequest.setMarketplace(ApiMarketplace.STUB_HUB);
+		return inventoryPriceUpdateRequest;
+	}
+
+	private InventoryBroadcastUpdateRequest broadcastUpdateRequest() {
+		var broadcastUpdateRequest =  new InventoryBroadcastUpdateRequest();
+		broadcastUpdateRequest.setMarketplace(ApiMarketplace.STUB_HUB);
+		broadcastUpdateRequest.setMarketplaceBroadcastState(ApiMarketplaceBroadcastState.LISTED);
+		broadcastUpdateRequest.setPosBroadcastState(ApiPosBroadcastState.LIST);
+		return broadcastUpdateRequest;
 	}
 
 	@Disabled("HTTP 429 Too Many Requests")
