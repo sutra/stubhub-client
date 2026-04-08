@@ -2,19 +2,28 @@ package org.oxerr.stubhub.client.model;
 
 public class MarketplaceSeatingOverrideUpdateRequest {
 
-	private String marketplace;
+	private ApiMarketplace marketplace;
 
+	/**
+	 * Section override info
+	 */
 	private String section;
 
+	/**
+	 * Row override info
+	 */
 	private String row;
 
+	/**
+	 * Seat override info. May contain mulitple seats as a comma separated list.
+	 */
 	private String seats;
 
-	public String getMarketplace() {
+	public ApiMarketplace getMarketplace() {
 		return marketplace;
 	}
 
-	public void setMarketplace(String marketplace) {
+	public void setMarketplace(ApiMarketplace marketplace) {
 		this.marketplace = marketplace;
 	}
 

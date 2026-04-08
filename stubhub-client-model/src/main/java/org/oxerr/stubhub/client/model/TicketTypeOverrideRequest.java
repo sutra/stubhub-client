@@ -4,15 +4,15 @@ import java.util.List;
 
 public class TicketTypeOverrideRequest {
 
-	private String deliveryType;
+	private ApiDeliveryType deliveryType;
 
 	private List<TicketTypePriorityRequest> ticketTypePriorities;
 
-	public String getDeliveryType() {
+	public ApiDeliveryType getDeliveryType() {
 		return deliveryType;
 	}
 
-	public void setDeliveryType(String deliveryType) {
+	public void setDeliveryType(ApiDeliveryType deliveryType) {
 		this.deliveryType = deliveryType;
 	}
 

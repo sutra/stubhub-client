@@ -10,7 +10,7 @@ public final class CXFStubHubClients {
 	public static CXFStubHubClient getClient() {
 		Properties props = getProps();
 		UUID accountId = UUID.fromString(props.getProperty("accountId"));
-		String apiKey = props.getProperty("apiKey");
+		String apiKey = props.getProperty("token");
 
 		return new CXFStubHubClient(accountId, apiKey);
 	}
@@ -28,6 +28,14 @@ public final class CXFStubHubClients {
 			throw new IllegalArgumentException("Read " + name + " failed.");
 		}
 		return props;
+	}
+
+	public static void enableLogging() {
+		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
+		System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
+		System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true");
+		System.setProperty("com.sun.xml.ws.transport.http.HttpAdapter.dump", "true");
+		System.setProperty("com.sun.xml.internal.ws.transport.http.HttpAdapter.dump", "true");
 	}
 
 }

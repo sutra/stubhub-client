@@ -5,8 +5,9 @@ import java.util.UUID;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.oxerr.stubhub.client.StubHubClient;
+import org.oxerr.stubhub.client.cxf.impl.event.CXFEventService;
 import org.oxerr.stubhub.client.cxf.impl.filter.BearerAuthFilter;
-import org.oxerr.stubhub.client.cxf.impl.inventory.CXFInventoryServce;
+import org.oxerr.stubhub.client.cxf.impl.inventory.CXFInventoryService;
 import org.oxerr.stubhub.client.cxf.resource.AccountResource;
 import org.oxerr.stubhub.client.cxf.resource.CurrencyConversionOverrideResource;
 import org.oxerr.stubhub.client.cxf.resource.DealResource;
@@ -34,13 +35,13 @@ public class CXFStubHubClient implements StubHubClient {
 
 	private final DealResource dealResource;
 
-	private final EventResource eventResource;
-
 	private final HealthCheckResource healthCheckResource;
 
 	private final HoldResource holdResource;
 
-	private final CXFInventoryServce inventoryService;
+	private final CXFEventService eventService;
+
+	private final CXFInventoryService inventoryService;
 
 	public CXFStubHubClient(UUID accountId, String apiKey) {
 		this.baseAddress = "https://pointofsaleapi.stubhub.net";
@@ -55,10 +56,10 @@ public class CXFStubHubClient implements StubHubClient {
 		accountResource = createProxy(AccountResource.class);
 		currencyConversionOverrideResource = createProxy(CurrencyConversionOverrideResource.class);
 		dealResource = createProxy(DealResource.class);
-		eventResource = createProxy(EventResource.class);
 		healthCheckResource = createProxy(HealthCheckResource.class);
 		holdResource = createProxy(HoldResource.class);
-		inventoryService = new CXFInventoryServce(createProxy(InventoryResource.class));
+		eventService = new CXFEventService(createProxy(EventResource.class));
+		inventoryService = new CXFInventoryService(createProxy(InventoryResource.class));
 	}
 
 	public AccountResource getAccountResource() {
@@ -71,10 +72,6 @@ public class CXFStubHubClient implements StubHubClient {
 
 	public DealResource getDealResource() {
 		return dealResource;
-	}
-
-	public EventResource getEventResource() {
-		return eventResource;
 	}
 
 	public HealthCheckResource getHealthCheckResource() {
@@ -110,7 +107,12 @@ public class CXFStubHubClient implements StubHubClient {
 	}
 
 	@Override
-	public CXFInventoryServce inventory() {
+	public CXFEventService event() {
+		return eventService;
+	}
+
+	@Override
+	public CXFInventoryService inventory() {
 		return inventoryService;
 	}
 
