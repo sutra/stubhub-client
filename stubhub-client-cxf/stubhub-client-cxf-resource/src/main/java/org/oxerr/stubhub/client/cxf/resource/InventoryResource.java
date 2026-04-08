@@ -57,7 +57,7 @@ public interface InventoryResource {
 	);
 
 	/**
-	 * Delete Inventory by Id (Inventory must not be connected to any purchase orders)
+	 * Delete Inventory by ID (Inventory must not be connected to any purchase orders)
 	 *
 	 * <p><b>200</b> - Success
 	 * @param inventoryId The ID of the inventory to return (required)
@@ -87,7 +87,7 @@ public interface InventoryResource {
 	 * Search inventory.
 	 *
 	 * <p><b>200</b> - Success
-	 * @param eventIds Viagogo Event Ids to include (optional)
+	 * @param eventIds Viagogo Event IDs to include (optional)
 	 * @param categoryIds Viagogo Event Categories to include (optional)
 	 * @param includeTags Tags to include (optional)
 	 * @param excludeTags Tags to exclude (optional)
@@ -138,7 +138,7 @@ public interface InventoryResource {
 	 * Seek inventory
 	 *
 	 * <p><b>200</b> - Success
-	 * @param inventoryIds Inventory or Listing Ids to query and return (optional)
+	 * @param inventoryIds Inventory or Listing IDs to query and return (optional)
 	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
 	 * @param seekListingsRequest (optional)
 	 * @return inventories.
@@ -206,7 +206,7 @@ public interface InventoryResource {
 	 * Get Bulk Update Listings Status.
 	 *
 	 * <p><b>200</b> - Success
-	 * @param bulkProcessingId  (required)
+	 * @param bulkProcessingId (required)
 	 * @return the bulk processing result summary response which contains the status of
 	 * the bulk update request and the result of the bulk update when the processing is completed.
 	 */
