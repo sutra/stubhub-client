@@ -8,11 +8,14 @@ import org.oxerr.stubhub.client.model.BulkInventoryRequest;
 import org.oxerr.stubhub.client.model.BulkProcessingResultSummaryResponse;
 import org.oxerr.stubhub.client.model.InventoryCreateRequest;
 import org.oxerr.stubhub.client.model.InventoryExportResponse;
+import org.oxerr.stubhub.client.model.InventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
 import org.oxerr.stubhub.client.model.SearchListingsResponse;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -27,13 +30,20 @@ public interface InventoryResource {
 
 	/**
 	 * Create inventory.
+	 *
+	 * <p><b>201</b> - Created
+	 * <p><b>400</b> - Bad Request
+	 * <p><b>403</b> - Forbidden
+	 * @param inventoryCreateRequest  (optional)
+	 * @return the created inventory.
 	 */
 	@POST
-	ListingResponse createInventory(InventoryCreateRequest listing);
+	ListingResponse createInventory(InventoryCreateRequest inventoryCreateRequest);
 
 	/**
 	 * Get inventory by ID.
 	 *
+	 * <p><b>200</b> - Success
 	 * @param inventoryId The ID of the inventory to return (required)
 	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
 	 * @return the inventory for the given ID.
@@ -46,8 +56,36 @@ public interface InventoryResource {
 	);
 
 	/**
+	 * Delete Inventory by Id (Inventory must not be connected to any purchase orders)
+	 *
+	 * <p><b>200</b> - Success
+	 * @param inventoryId The ID of the inventory to return (required)
+	 * @return the deleted inventory for the given ID.
+	 */
+	@DELETE
+	@Path("/{inventoryId}")
+	List<ListingResponse> deleteInventory(@PathParam("inventoryId") Long inventoryId);
+
+	/**
+	 * Update listing prices, barcodes, and price settings.
+	 * 
+	 * <p><b>400</b> - Bad Request
+	 * <p><b>200</b> - Success
+	 * @param inventoryId  (required)
+	 * @param inventoryUpdateRequest  (optional)
+	 * @return the updated inventory for the given ID.
+	 */
+	@PATCH
+	@Path("/{inventoryId}")
+	ListingResponse updateInventory(
+		@PathParam("inventoryId") Long inventoryId,
+		InventoryUpdateRequest inventoryUpdateRequest
+	);
+
+	/**
 	 * Search inventory.
 	 *
+	 * <p><b>200</b> - Success
 	 * @param eventIds Viagogo Event Ids to include (optional)
 	 * @param categoryIds Viagogo Event Categories to include (optional)
 	 * @param includeTags Tags to include (optional)
@@ -95,6 +133,15 @@ public interface InventoryResource {
 		@QueryParam("tagValue") String tagValue
 	);
 
+	/**
+	 * Seek inventory
+	 *
+	 * <p><b>200</b> - Success
+	 * @param inventoryIds Inventory or Listing Ids to query and return (optional)
+	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
+	 * @param seekListingsRequest  (optional)
+	 * @return inventories.
+	 */
 	@GET
 	@Path("/seek")
 	List<SearchListingsResponse> seek(
@@ -106,22 +153,24 @@ public interface InventoryResource {
 	/**
 	 * Exports inventory for exchange integration. The results from this method
 	 * are sorted by reverse mutation date order.
-	 * 
+	 *
+	 * <p><b>200</b> - Success
 	 * @param updatedDateSince The beginning update date to be used for looking
-	 * up inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
-	 * @param pageSize The number of results per page.
-	 * Default page size is 100. Max page size is 5000.
-	 * @param paginationToken Token used to paginate result set.
+	 * up inventory. Must be in format yyyy-MM-ddTHH:mm:ss. (optional)
+	 * @param pageSize The number of results per page. (optional)
+	 * Default page size is 100. Max page size is 5000. (optional)
+	 * @param paginationToken Token used to paginate result set. (optional)
 	 * @param includePastEvents To include inventory from past events in the
-	 * results. Default is false.
+	 * results. Default is false. (optional)
 	 * @param includeBuyerCommissionsPerTicket o include buyerCommissionsArray
-	 * per Ticket. Default is false.
+	 * per Ticket. Default is false. (optional)
 	 * @param createDateFrom The beginning create date to be used for looking
-	 * up inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 * up inventory. Must be in format yyyy-MM-ddTHH:mm:ss. (optional)
 	 * @param createDateTo The ending create date to be used for looking up
-	 * inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 * inventory. Must be in format yyyy-MM-ddTHH:mm:ss. (optional)
 	 * @param updatedDateTo The ending update date to be used for looking up
-	 * inventory. Must be in format yyyy-MM-ddTHH:mm:ss.
+	 * inventory. Must be in format yyyy-MM-ddTHH:mm:ss. (optional)
+	 * @return inventories.
 	 */
 	@GET
 	@Path("/export")
@@ -138,6 +187,13 @@ public interface InventoryResource {
 
 	/**
 	 * Bulk Update Listings.
+	 *
+	 * <p><b>400</b> - Bad Request
+	 * <p><b>200</b> - Success
+	 * @param UNKNOWN_PARAMETER_NAME Account-Id used for impersonation (optional)
+	 * @param bulkInventoryRequest  (optional)
+	 * @return the bulk processing result summary response which contains
+	 * the bulk processing id to track the status of the bulk update request.
 	 */
 	@POST
 	@Path("/bulk")
@@ -147,6 +203,11 @@ public interface InventoryResource {
 
 	/**
 	 * Get Bulk Update Listings Status.
+	 *
+	 * <p><b>200</b> - Success
+	 * @param bulkProcessingId  (required)
+	 * @return the bulk processing result summary response which contains the status of
+	 * the bulk update request and the result of the bulk update when the processing is completed.
 	 */
 	@GET
 	@Path("/bulk/{bulkProcessingId}")
@@ -156,6 +217,11 @@ public interface InventoryResource {
 
 	/**
 	 * Get inventory by External ID.
+	 *
+	 * <p><b>200</b> - Success
+	 * @param externalId The external ID of the inventory to look up (required)
+	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
+	 * @return the inventory for the given External ID.
 	 */
 	@GET
 	@Path("/external/{externalId}")
@@ -166,6 +232,11 @@ public interface InventoryResource {
 
 	/**
 	 * Get multiple inventories by External ID.
+	 *
+	 * <p><b>200</b> - Success
+	 * @param externalId The external ID of the inventories to look up (required)
+	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
+	 * @return the inventories for the given External ID.
 	 */
 	@GET
 	@Path("/externals/{externalId}")
