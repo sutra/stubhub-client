@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+	<Properties>
+		<Property name="app.log.dir">${sys:log.dir:-target/log}</Property>
+		<Property name="app.name">${sys:application.name:-stubhub-client-cxf-impl}</Property>
+		<Property name="pattern">%d %-5p [%t] %C{2} (%F:%L) - %m%n</Property>
+		<Property name="pattern.file">%d %-6p [%t] %C{1.}.%M:%L %m%n</Property>
+	</Properties>
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
 			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
-			<PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
+			<PatternLayout pattern="${pattern}" />
 		</Console>
 		<RollingRandomAccessFile name="file"
-			fileName="target/log/stubhub-client-cxf-impl.log"
-			filePattern="target/log/stubhub-client-cxf-impl-%d{yyyy-MM-dd}-%i.log.gz">
+			fileName="${app.log.dir}/${app.name}.log"
+			filePattern="${app.log.dir}/${app.name}-%d{yyyy-MM-dd}-%i.log.gz">
 			<PatternLayout charset="UTF-8">
-				<Pattern>%d %-6p [%t] %C{1.}.%M:%L %m%n</Pattern>
+				<Pattern>${pattern.file}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="7" />
+		</RollingRandomAccessFile>
+		<RollingRandomAccessFile name="cxf"
+			fileName="${app.log.dir}/${app.name}-cxf.log"
+			filePattern="${app.log.dir}/${app.name}-cxf-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout charset="UTF-8">
+				<Pattern>${pattern.file}</Pattern>
 			</PatternLayout>
 			<Policies>
 				<OnStartupTriggeringPolicy />
@@ -19,8 +36,7 @@
 	</Appenders>
 	<Loggers>
 		<Logger name="org.apache.cxf" level="INFO" additivity="false">
-			<AppenderRef ref="console" />
-			<AppenderRef ref="file" />
+			<AppenderRef ref="cxf" />
 		</Logger>
 		<Logger name="org.oxerr.stubhub.client.cxf.impl" level="ALL" additivity="false">
 			<AppenderRef ref="console" />

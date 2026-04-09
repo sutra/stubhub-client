@@ -29,6 +29,13 @@ public class BulkInventoryRequest {
 
 	private Integer totalRequests;
 
+	public BulkInventoryRequest() {
+	}
+
+	public BulkInventoryRequest(UUID bulkProcessingId) {
+		this.bulkProcessingId = bulkProcessingId;
+	}
+
 	public UUID getBulkProcessingId() {
 		return bulkProcessingId;
 	}
