@@ -1,9 +1,12 @@
 package org.oxerr.stubhub.client.cxf.impl.inventory;
 
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +24,7 @@ import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.model.ApiDeliveryType;
 import org.oxerr.stubhub.client.model.ApiMarketplace;
+import org.oxerr.stubhub.client.model.ApiMarketplaceBroadcastState;
 import org.oxerr.stubhub.client.model.ApiPosBroadcastState;
 import org.oxerr.stubhub.client.model.BulkInventoryCreateRequest;
 import org.oxerr.stubhub.client.model.BulkInventoryDeleteRequest;
@@ -41,6 +45,10 @@ class CXFInventoryServiceTest {
 
 	private final CXFInventoryService inventoryService = client.inventory();
 
+	private final long inventoryId = 895113502L;
+
+	private final ApiPosBroadcastState posBroadcastState = ApiPosBroadcastState.DELIST;
+
 	@BeforeAll
 	static void setUpBeforeClass() {
 		CXFStubHubClients.enableLogging();
@@ -49,53 +57,34 @@ class CXFInventoryServiceTest {
 	@Disabled("Requires token")
 	@Test
 	void testGetInventory() {
-		long inventoryId = 895113502L;
 		var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
 		assertNotNull(inventory);
 		log.info("inventory: {}", inventory);
 		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
 		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
 		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+
+		assertEquals(posBroadcastState, status.getPosBroadcastState());
 	}
 
-	@Disabled("Update broadcast with update inventory")
+	// @Disabled("Update broadcast with update inventory")
 	@Test
 	void testUpdateBroadcast() {
-		long inventoryId = 895113502L;
-
 		// bulk update
 		var res = inventoryService.resource().updateInventory(inventoryId, updateRequest());
-
 		log.info("res: {}", res);
 
 		// check inventory
-		var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
-		assertNotNull(inventory);
-		log.info("inventory: {}", inventory);
-		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
-		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
-		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
-
-		try {
-			Thread.sleep(60_000L);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		testGetInventory();
+		checkInventory();
 	}
 
 	@Disabled("Update broadcast with bulk update")
 	@Test
 	void testBulkUpdateBroadcast() {
-		long inventoryId = 895113502L;
-
 		BulkInventoryRequest req = bulkRequest(inventoryId);
 
 		// bulk update
 		var res = inventoryService.resource().bulkUpdate(req);
-
 		log.info("successful: {}", res::getSuccessful);
 		assertFalse(res.getSuccessful().booleanValue());
 
@@ -103,28 +92,35 @@ class CXFInventoryServiceTest {
 		inventoryService.resource().getBulkUpdateStatus(req.getBulkProcessingId());
 
 		// check inventory
-		var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
-		assertNotNull(inventory);
-		log.info("inventory: {}", inventory);
-		log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
-		var status = inventory.get(0).getListingStatusByMarketplace().get(0);
-		log.info("marketplace: {}, broadcast: {}", status.getMarketplaceName(), status.getMarketplaceBroadcastState());
+		checkInventory();
+	}
 
-		log.info("wait for 60 seconds...");
+	private void checkInventory() {
+		await().timeout(Duration.ofMinutes(1)).pollDelay(Duration.ofSeconds(8)).untilAsserted(() -> {
+			var inventory = inventoryService.resource().getInventory(inventoryId, Boolean.TRUE);
+			assertNotNull(inventory);
 
-		try {
-			Thread.sleep(60_000L);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			var status = inventory.get(0).getListingStatusByMarketplace().get(0);
 
-		testGetInventory();
+			log.info("inventory: {}", inventory);
+			log.info("inventory[0].isBroadcast(): {}", inventory.get(0).getIsBroadcast());
+			log.info("marketplace: {}, broadcast: {}, posBroadcast: {}",
+				status.getMarketplaceName(), status.getMarketplaceBroadcastState(), status.getPosBroadcastState());
+
+			assertEquals("Delisted", status.getListingStatus());
+			assertEquals(ApiMarketplace.STUB_HUB, status.getMarketplaceName());
+			assertEquals(ApiMarketplaceBroadcastState.DELISTED, status.getMarketplaceBroadcastState());
+			assertEquals(posBroadcastState, status.getPosBroadcastState());
+		});
+	}
+
+	private UUID bulkProcessingId() {
+		return new UUID(0L, 6);
 	}
 
 	private BulkInventoryRequest bulkRequest(long inventoryId) {
 		BulkInventoryRequest req = new BulkInventoryRequest();
-		req.setBulkProcessingId(new UUID(0L, 4));
+		req.setBulkProcessingId(bulkProcessingId());
 		req.setUpdateRequests(List.of(bulkUpdateRequest(inventoryId)));
 		return req;
 	}
@@ -132,6 +128,10 @@ class CXFInventoryServiceTest {
 	private BulkInventoryUpdateRequest bulkUpdateRequest(long inventoryId) {
 		BulkInventoryUpdateRequest updateRequest = new BulkInventoryUpdateRequest();
 		updateRequest.setInventoryId(inventoryId);
+
+		// Quantity must be between 0 and 99.
+		updateRequest.setMaxDisplayQuantity(99);
+
 		updateRequest.setPrices(List.of(inventoryPriceUpdateRequest()));
 		updateRequest.setBroadcastStatuses(List.of(broadcastUpdateRequest()));
 		return updateRequest;
@@ -153,9 +153,15 @@ class CXFInventoryServiceTest {
 
 	private InventoryBroadcastUpdateRequest broadcastUpdateRequest() {
 		var broadcastUpdateRequest =  new InventoryBroadcastUpdateRequest();
+
 		broadcastUpdateRequest.setMarketplace(ApiMarketplace.STUB_HUB);
+
+		// Do not set this field,
+		// otherwise will got "Seller xxx isn't handled by processor on StubHub" error.
 		// broadcastUpdateRequest.setMarketplaceBroadcastState(ApiMarketplaceBroadcastState.LISTED);
-		broadcastUpdateRequest.setPosBroadcastState(ApiPosBroadcastState.LIST);
+
+		broadcastUpdateRequest.setPosBroadcastState(posBroadcastState);
+
 		return broadcastUpdateRequest;
 	}
 

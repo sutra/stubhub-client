@@ -6,13 +6,13 @@ public class MarketplaceListingStatus {
 
 	private String listingStatus;
 
-	private String marketplaceBroadcastState;
+	private ApiMarketplaceBroadcastState marketplaceBroadcastState;
 
-	private String posBroadcastState;
+	private ApiPosBroadcastState posBroadcastState;
 
 	private List<String> broadcastErrors;
 
-	private String marketplaceName;
+	private ApiMarketplace marketplaceName;
 
 	private String marketplaceListingId;
 
@@ -26,19 +26,19 @@ public class MarketplaceListingStatus {
 		this.listingStatus = listingStatus;
 	}
 
-	public String getMarketplaceBroadcastState() {
+	public ApiMarketplaceBroadcastState getMarketplaceBroadcastState() {
 		return marketplaceBroadcastState;
 	}
 
-	public void setMarketplaceBroadcastState(String marketplaceBroadcastState) {
+	public void setMarketplaceBroadcastState(ApiMarketplaceBroadcastState marketplaceBroadcastState) {
 		this.marketplaceBroadcastState = marketplaceBroadcastState;
 	}
 
-	public String getPosBroadcastState() {
+	public ApiPosBroadcastState getPosBroadcastState() {
 		return posBroadcastState;
 	}
 
-	public void setPosBroadcastState(String posBroadcastState) {
+	public void setPosBroadcastState(ApiPosBroadcastState posBroadcastState) {
 		this.posBroadcastState = posBroadcastState;
 	}
 
@@ -50,11 +50,11 @@ public class MarketplaceListingStatus {
 		this.broadcastErrors = broadcastErrors;
 	}
 
-	public String getMarketplaceName() {
+	public ApiMarketplace getMarketplaceName() {
 		return marketplaceName;
 	}
 
-	public void setMarketplaceName(String marketplaceName) {
+	public void setMarketplaceName(ApiMarketplace marketplaceName) {
 		this.marketplaceName = marketplaceName;
 	}
 

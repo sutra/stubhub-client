@@ -25,8 +25,10 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<awaitility.version>4.3.0</awaitility.version>
 		<cxf.version>4.0.7</cxf.version>
 		<jackson.version>2.21.1</jackson.version>
+		<junit.version>6.0.3</junit.version>
 		<log4j.version>2.20.0</log4j.version>
 	</properties>
 	<modules>
@@ -195,6 +197,11 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
+					<groupId>org.awaitility</groupId>
+					<artifactId>awaitility</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
 					<groupId>org.junit.jupiter</groupId>
 					<artifactId>junit-jupiter</artifactId>
 					<scope>test</scope>
@@ -203,9 +210,14 @@
 			<dependencyManagement>
 				<dependencies>
 					<dependency>
+						<groupId>org.awaitility</groupId>
+						<artifactId>awaitility</artifactId>
+						<version>${awaitility.version}</version>
+					</dependency>
+					<dependency>
 						<groupId>org.junit</groupId>
 						<artifactId>junit-bom</artifactId>
-						<version>6.0.3</version>
+						<version>${junit.version}</version>
 						<type>pom</type>
 						<scope>import</scope>
 					</dependency>
