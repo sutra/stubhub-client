@@ -67,7 +67,7 @@ class CXFInventoryServiceTest {
 		assertEquals(posBroadcastState, status.getPosBroadcastState());
 	}
 
-	// @Disabled("Update broadcast with update inventory")
+	@Disabled("Require token")
 	@Test
 	void testUpdateBroadcast() {
 		// bulk update
@@ -78,7 +78,7 @@ class CXFInventoryServiceTest {
 		checkInventory();
 	}
 
-	@Disabled("Update broadcast with bulk update")
+	@Disabled("Require token")
 	@Test
 	void testBulkUpdateBroadcast() {
 		BulkInventoryRequest req = bulkRequest(inventoryId);
