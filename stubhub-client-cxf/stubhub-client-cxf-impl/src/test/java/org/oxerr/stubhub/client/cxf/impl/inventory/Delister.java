@@ -49,17 +49,19 @@ class Delister {
 	@Disabled("Run this test to delist all listings.")
 	@Test
 	void testDelist() {
-		AtomicInteger counter = new AtomicInteger();
+		AtomicInteger totalCounter = new AtomicInteger();
+		AtomicInteger listCounter = new AtomicInteger();
 
 		InventoryExportCriteria criteria = new InventoryExportCriteria();
 		criteria.setPageSize(5000);
 
 		client.inventory().streamInventories(criteria).forEach(inventory -> {
-			var i = counter.incrementAndGet();
+			var i = totalCounter.incrementAndGet();
 
 			var state = inventory.getListingStatusByMarketplace().get(0).getPosBroadcastState();
 
 			if (state == ApiPosBroadcastState.LIST) {
+				listCounter.incrementAndGet();
 				log.info("[%,d] inventory: %s, posBroadcastState: %s", i, inventory.getId(), state);
 				executor.execute(() -> {
 					delist(inventory);
@@ -68,6 +70,8 @@ class Delister {
 				log.debug("[%,d] inventory: %s, posBroadcastState: %s", i, inventory.getId(), state);
 			}
 		});
+
+		log.info("total inventory count: %,d, list inventory count: %,d", totalCounter.get(), listCounter.get());
 	}
 
 	private void delist(ListingResponse inventory) {
