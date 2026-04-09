@@ -43,7 +43,15 @@ class Delister {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		executor.awaitTermination(10, TimeUnit.MINUTES);
+		// Shutdown executor and wait for tasks to complete before exiting.
+		executor.shutdown();
+		if (!executor.awaitTermination(10, TimeUnit.MINUTES)) {
+			log.warn("Some delist tasks did not complete within the timeout.");
+			executor.shutdownNow();
+			if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+				log.error("Executor did not terminate.");
+			}
+		}
 	}
 
 	@Disabled("Run this test to delist all listings.")
