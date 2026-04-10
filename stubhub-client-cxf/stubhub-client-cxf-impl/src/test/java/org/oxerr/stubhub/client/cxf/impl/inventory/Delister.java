@@ -70,12 +70,18 @@ class Delister {
 
 			if (state == ApiPosBroadcastState.LIST) {
 				listCounter.incrementAndGet();
-				log.info("[%,d] inventory: %s, posBroadcastState: %s", i, inventory.getId(), state);
+				log.info("[%,d] inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, posBroadcastState: %s", i,
+					inventory.getId(), inventory.getExternalId(),
+					inventory.getUnitCost(), inventory.getFaceValue(),
+					state);
 				executor.execute(() -> {
 					delist(inventory);
 				});
 			} else {
-				log.debug("[%,d] inventory: %s, posBroadcastState: %s", i, inventory.getId(), state);
+				log.debug("[%,d] inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, posBroadcastState: %s", i,
+					inventory.getId(), inventory.getExternalId(),
+					inventory.getUnitCost(), inventory.getFaceValue(),
+					state);
 			}
 		});
 
