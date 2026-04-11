@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -16,6 +17,7 @@ import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
 import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.model.ApiPosBroadcastState;
+import org.oxerr.stubhub.client.model.ListingResponse;
 
 /**
  * Check the price of all listings and delist them if necessary. This is a
@@ -29,6 +31,12 @@ class PriceChecker {
 	private final CXFStubHubClient client = CXFStubHubClients.getClient();
 
 	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+
+	private final StopWatch watch = StopWatch.create();
+
+	private final AtomicInteger totalCounter = new AtomicInteger();
+	private final AtomicInteger listCounter  = new AtomicInteger();
+	private final AtomicInteger warnCounter  = new AtomicInteger();
 
 	@BeforeAll
 	static void setUpBeforeClass() {
@@ -51,37 +59,42 @@ class PriceChecker {
 	@Disabled("Run this test to check all listings.")
 	@Test
 	void testCheckPrice() {
-		AtomicInteger totalCounter = new AtomicInteger();
-		AtomicInteger listCounter = new AtomicInteger();
+		watch.start();
 
 		InventoryExportCriteria criteria = new InventoryExportCriteria();
 		criteria.setPageSize(5000);
 
-		client.inventory().streamInventories(criteria).forEach(inventory -> {
-			var i = totalCounter.incrementAndGet();
+		client.inventory().streamInventories(criteria).forEach(this::check);
 
-			var state = inventory.getListingStatusByMarketplace().get(0).getPosBroadcastState();
+		log.info("[%s] total inventory count: %,d, list inventory count: %,d, warn inventory count: %,d",
+			watch, totalCounter.get(), listCounter.get(), warnCounter.get());
+	}
 
-			if (state == ApiPosBroadcastState.LIST) {
-				listCounter.incrementAndGet();
+	private void check(ListingResponse inventory) {
+		var index = totalCounter.incrementAndGet();
 
-				if (inventory.getUnitCost().compareTo(BigDecimal.ZERO) <= 0 || inventory.getUnitCost().compareTo(inventory.getFaceValue()) <= 0) {
-					log.warn("[%,d] Inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s",
-						i, inventory.getId(), inventory.getExternalId(),
-						inventory.getUnitCost(), inventory.getFaceValue(),
-						inventory.getIsBroadcast(),
-						state);
-				}
-			} else {
-				log.debug("[%,d] inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s", i,
-					inventory.getId(), inventory.getExternalId(),
+		var state = inventory.getListingStatusByMarketplace().get(0).getPosBroadcastState();
+
+		if (state == ApiPosBroadcastState.LIST) {
+			listCounter.incrementAndGet();
+
+			if (inventory.getUnitCost().compareTo(BigDecimal.ZERO) <= 0
+				|| inventory.getUnitCost().compareTo(inventory.getFaceValue()) <= 0) {
+				var warn = warnCounter.incrementAndGet();
+
+				log.warn("[%s][%,d] Inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
+					watch, index, inventory.getId(), inventory.getExternalId(),
 					inventory.getUnitCost(), inventory.getFaceValue(),
 					inventory.getIsBroadcast(),
-					state);
+					state, warn);
 			}
-		});
-
-		log.info("total inventory count: %,d, list inventory count: %,d", totalCounter.get(), listCounter.get());
+		} else {
+			log.debug("[%s][%,d] inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
+				watch, index, inventory.getId(), inventory.getExternalId(),
+				inventory.getUnitCost(), inventory.getFaceValue(),
+				inventory.getIsBroadcast(),
+				state, warnCounter.get());
+		}
 	}
 
 }
