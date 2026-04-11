@@ -11,6 +11,18 @@ public class ListingNoteRequest {
 	 */
 	private Boolean isDelete;
 
+	public ListingNoteRequest() {
+	}
+
+	public ListingNoteRequest(String note) {
+		this.note = note;
+	}
+
+	public ListingNoteRequest(String note, Boolean isDelete) {
+		this.note = note;
+		this.isDelete = isDelete;
+	}
+
 	public String getNote() {
 		return note;
 	}
