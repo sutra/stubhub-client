@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
@@ -48,11 +47,6 @@ class CXFInventoryServiceTest {
 	private final long inventoryId = 895113502L;
 
 	private final ApiPosBroadcastState posBroadcastState = ApiPosBroadcastState.DELIST;
-
-	@BeforeAll
-	static void setUpBeforeClass() {
-		CXFStubHubClients.enableLogging();
-	}
 
 	@Disabled("Requires token")
 	@Test
