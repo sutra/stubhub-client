@@ -76,14 +76,14 @@ class PriceChecker {
 				|| inventory.getUnitCost().compareTo(inventory.getFaceValue()) <= 0) {
 				var warn = warnCounter.incrementAndGet();
 
-				log.warn("[%s][%,d] Inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
+				log.warn("[%s][%,d] Inventory: %d(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
 					watch, index, inventory.getId(), inventory.getExternalId(),
 					inventory.getUnitCost(), inventory.getFaceValue(),
 					inventory.getIsBroadcast(),
 					state, warn);
 			}
 		} else {
-			log.debug("[%s][%,d] inventory: %s(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
+			log.debug("[%s][%,d] inventory: %d(%s), unitCost: %,.2f, faceValue: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
 				watch, index, inventory.getId(), inventory.getExternalId(),
 				inventory.getUnitCost(), inventory.getFaceValue(),
 				inventory.getIsBroadcast(),
