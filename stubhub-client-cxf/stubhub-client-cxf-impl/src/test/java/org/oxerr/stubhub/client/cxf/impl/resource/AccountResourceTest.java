@@ -3,7 +3,6 @@ package org.oxerr.stubhub.client.cxf.impl.resource;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
@@ -16,11 +15,6 @@ class AccountResourceTest {
 	private final CXFStubHubClient client = CXFStubHubClients.getClient();
 
 	private final AccountResource accountResource = client.getAccountResource();
-
-	@BeforeAll
-	static void setUpBeforeClass() {
-		CXFStubHubClients.enableLogging();
-	}
 
 	@Disabled("Requires a valid api key.")
 	@Test

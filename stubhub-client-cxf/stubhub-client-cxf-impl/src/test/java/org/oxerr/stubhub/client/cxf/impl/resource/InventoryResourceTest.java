@@ -2,7 +2,6 @@ package org.oxerr.stubhub.client.cxf.impl.resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
@@ -17,11 +16,6 @@ class InventoryResourceTest {
 	private final CXFInventoryService inventoryService = CXFStubHubClients.getClient().inventory();
 
 	private final InventoryResource inventoryResource = inventoryService.resource();
-
-	@BeforeAll
-	static void setUpBeforeClass() {
-		CXFStubHubClients.enableLogging();
-	}
 
 	@Disabled("InternalServerError HTTP 500 Internal Server Error")
 	@Test

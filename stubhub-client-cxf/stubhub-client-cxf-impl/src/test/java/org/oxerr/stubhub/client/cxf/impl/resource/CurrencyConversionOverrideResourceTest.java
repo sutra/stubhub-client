@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
@@ -20,11 +19,6 @@ class CurrencyConversionOverrideResourceTest {
 
 	private final CurrencyConversionOverrideResource currencyConversionOverrideResource = client
 		.getCurrencyConversionOverrideResource();
-
-	@BeforeAll
-	static void setUpBeforeClass() {
-		CXFStubHubClients.enableLogging();
-	}
 
 	@Disabled("This test modifies server data.")
 	@Test
