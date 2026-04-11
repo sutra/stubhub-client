@@ -3,35 +3,31 @@
 	<Properties>
 		<Property name="app.log.dir">${sys:log.dir:-target/log}</Property>
 		<Property name="app.name">${sys:application.name:-stubhub-client-cxf-impl}</Property>
-		<Property name="pattern">%d %-5p [%t] %C{2} (%F:%L) - %m%n</Property>
-		<Property name="pattern.file">%d %-6p [%t] %C{1.}.%M:%L %m%n</Property>
+		<Property name="pattern.console">%d %-5p [%t] %C{2} (%F:%L) - %m%n</Property>
+		<Property name="pattern.file"   >%d %-5p [%t] %C{1.}.%M:%L %m%n</Property>
 	</Properties>
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
 			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
-			<PatternLayout pattern="${pattern}" />
+			<PatternLayout pattern="${pattern.console}" />
 		</Console>
 		<RollingRandomAccessFile name="file"
 			fileName="${app.log.dir}/${app.name}.log"
 			filePattern="${app.log.dir}/${app.name}-%d{yyyy-MM-dd}-%i.log.gz">
-			<PatternLayout charset="UTF-8">
-				<Pattern>${pattern.file}</Pattern>
-			</PatternLayout>
+			<PatternLayout charset="UTF-8" pattern="${pattern.file}" />
 			<Policies>
 				<OnStartupTriggeringPolicy />
 			</Policies>
-			<DefaultRolloverStrategy max="7" />
+			<DefaultRolloverStrategy fileIndex="nomax" />
 		</RollingRandomAccessFile>
 		<RollingRandomAccessFile name="cxf"
 			fileName="${app.log.dir}/${app.name}-cxf.log"
 			filePattern="${app.log.dir}/${app.name}-cxf-%d{yyyy-MM-dd}-%i.log.gz">
-			<PatternLayout charset="UTF-8">
-				<Pattern>${pattern.file}</Pattern>
-			</PatternLayout>
+			<PatternLayout charset="UTF-8" pattern="${pattern.file}" />
 			<Policies>
 				<OnStartupTriggeringPolicy />
 			</Policies>
-			<DefaultRolloverStrategy max="7" />
+			<DefaultRolloverStrategy fileIndex="nomax" />
 		</RollingRandomAccessFile>
 	</Appenders>
 	<Loggers>
