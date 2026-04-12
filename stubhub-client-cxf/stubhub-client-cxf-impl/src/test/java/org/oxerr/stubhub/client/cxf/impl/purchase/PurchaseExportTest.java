@@ -1,4 +1,4 @@
-package org.oxerr.stubhub.client.cxf.impl.event;
+package org.oxerr.stubhub.client.cxf.impl.purchase;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,20 +7,18 @@ import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
 
-class CXFEventServiceTest {
+class PurchaseExportTest {
 
-	private static final Logger log = LogManager.getLogger();
+	private static final Logger log = LogManager.getFormatterLogger();
 
 	private final CXFStubHubClient client = CXFStubHubClients.getClient();
 
-	private final CXFEventService eventService = client.event();
-
 	@Disabled("Requires authentication")
 	@Test
-	void testGetInventories() {
-		log.info("Testing getInventories()...");
-		var inventories = eventService.getInventories(159450682);
-		log.info("inventories: {}", inventories::size);
+	void testGetPurchases() {
+		client.purchase().streamPurchases().forEach(o -> {
+			log.info("order: %s", o);
+		});
 	}
 
 }

@@ -2,7 +2,6 @@ package org.oxerr.stubhub.client.cxf.impl.resource;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
@@ -14,11 +13,6 @@ class EventResourceTest {
 	private final CXFStubHubClient client = CXFStubHubClients.getClient();
 
 	private EventResource eventResource = client.event().resource();
-
-	@BeforeAll
-	static void setUpBeforeClass() {
-		CXFStubHubClients.enableLogging();
-	}
 
 	@Disabled("Requires authentication")
 	@Test

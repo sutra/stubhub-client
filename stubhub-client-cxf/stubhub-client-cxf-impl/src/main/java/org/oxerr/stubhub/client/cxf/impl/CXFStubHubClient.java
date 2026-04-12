@@ -2,12 +2,16 @@ package org.oxerr.stubhub.client.cxf.impl;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+import org.apache.cxf.jaxrs.client.ClientConfiguration;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.oxerr.stubhub.client.StubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.event.CXFEventService;
 import org.oxerr.stubhub.client.cxf.impl.filter.BearerAuthFilter;
 import org.oxerr.stubhub.client.cxf.impl.inventory.CXFInventoryService;
+import org.oxerr.stubhub.client.cxf.impl.purchase.CXFPurchaseService;
 import org.oxerr.stubhub.client.cxf.resource.AccountResource;
 import org.oxerr.stubhub.client.cxf.resource.CurrencyConversionOverrideResource;
 import org.oxerr.stubhub.client.cxf.resource.DealResource;
@@ -15,6 +19,7 @@ import org.oxerr.stubhub.client.cxf.resource.EventResource;
 import org.oxerr.stubhub.client.cxf.resource.HealthCheckResource;
 import org.oxerr.stubhub.client.cxf.resource.HoldResource;
 import org.oxerr.stubhub.client.cxf.resource.InventoryResource;
+import org.oxerr.stubhub.client.cxf.resource.PurchaseResource;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,11 +28,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
+import jakarta.annotation.Nullable;
+
 public class CXFStubHubClient implements StubHubClient {
-
-	private final String baseAddress;
-
-	private final List<?> providers;
 
 	private final AccountResource accountResource;
 
@@ -43,23 +46,53 @@ public class CXFStubHubClient implements StubHubClient {
 
 	private final CXFInventoryService inventoryService;
 
-	public CXFStubHubClient(UUID accountId, String apiKey) {
-		this.baseAddress = "https://pointofsaleapi.stubhub.net";
+	private final CXFPurchaseService purchaseService;
+
+	public CXFStubHubClient(UUID accountId, String token) {
+		this(accountId, token, null, config -> {});
+	}
+
+	public CXFStubHubClient(
+		UUID accountId,
+		String token,
+		@Nullable HTTPClientPolicy policy
+	) {
+		this(accountId, token, policy, config -> {});
+	}
+
+	public CXFStubHubClient(
+		UUID accountId,
+		String token,
+		@Nullable HTTPClientPolicy policy,
+		Consumer<ClientConfiguration> configurer
+	) {
+		var baseAddress = "https://pointofsaleapi.stubhub.net";
+
+		Consumer<ClientConfiguration> internalConfigurer = config -> {
+			if (policy != null) {
+				HTTPConduit conduit = (HTTPConduit) config.getConduit();
+				conduit.setClient(policy);
+			}
+			configurer.accept(config);
+		};
 
 		JacksonJsonProvider jacksonJsonProvider = createJacksonJsonProvider();
-		BearerAuthFilter authFilter = new BearerAuthFilter(accountId, apiKey);
-		this.providers = List.of(
+		BearerAuthFilter authFilter = new BearerAuthFilter(accountId, token);
+		List<?> providers = List.of(
 			jacksonJsonProvider,
 			authFilter
 		);
 
-		accountResource = createProxy(AccountResource.class);
-		currencyConversionOverrideResource = createProxy(CurrencyConversionOverrideResource.class);
-		dealResource = createProxy(DealResource.class);
-		healthCheckResource = createProxy(HealthCheckResource.class);
-		holdResource = createProxy(HoldResource.class);
-		eventService = new CXFEventService(createProxy(EventResource.class));
-		inventoryService = new CXFInventoryService(createProxy(InventoryResource.class));
+		var f = new ClientFactory(baseAddress, providers, internalConfigurer);
+
+		accountResource = f.create(AccountResource.class);
+		currencyConversionOverrideResource = f.create(CurrencyConversionOverrideResource.class);
+		dealResource = f.create(DealResource.class);
+		healthCheckResource = f.create(HealthCheckResource.class);
+		holdResource = f.create(HoldResource.class);
+		eventService = new CXFEventService(f.create(EventResource.class));
+		inventoryService = new CXFInventoryService(f.create(InventoryResource.class));
+		purchaseService = new CXFPurchaseService(f.create(PurchaseResource.class));
 	}
 
 	public AccountResource getAccountResource() {
@@ -80,14 +113,6 @@ public class CXFStubHubClient implements StubHubClient {
 
 	public HoldResource getHoldResource() {
 		return holdResource;
-	}
-
-	protected <T> T createProxy(Class<T> cls) {
-		return JAXRSClientFactory.create(
-			baseAddress,
-			cls,
-			providers
-		);
 	}
 
 	protected JacksonJsonProvider createJacksonJsonProvider() {
@@ -114,6 +139,11 @@ public class CXFStubHubClient implements StubHubClient {
 	@Override
 	public CXFInventoryService inventory() {
 		return inventoryService;
+	}
+
+	@Override
+	public CXFPurchaseService purchase() {
+		return purchaseService;
 	}
 
 }
