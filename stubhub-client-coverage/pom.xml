@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.oxerr.stubhub.client</groupId>
 		<artifactId>stubhub-client</artifactId>
-		<version>0.2.0</version>
+		<version>0.2.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>stubhub-client-coverage</artifactId>
 	<name>StubHub.PointOfSale.ExternalApi Client - Coverage</name>
