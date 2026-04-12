@@ -2,6 +2,7 @@ package org.oxerr.stubhub.client.cxf.impl.event;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.CXFStubHubClients;
@@ -14,6 +15,7 @@ class CXFEventServiceTest {
 
 	private final CXFEventService eventService = client.event();
 
+	@Disabled("Requires authentication")
 	@Test
 	void testGetInventories() {
 		log.info("Testing getInventories()...");
