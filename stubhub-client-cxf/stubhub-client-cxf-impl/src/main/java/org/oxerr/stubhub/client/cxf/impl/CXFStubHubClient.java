@@ -11,6 +11,7 @@ import org.oxerr.stubhub.client.StubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.event.CXFEventService;
 import org.oxerr.stubhub.client.cxf.impl.filter.BearerAuthFilter;
 import org.oxerr.stubhub.client.cxf.impl.inventory.CXFInventoryService;
+import org.oxerr.stubhub.client.cxf.impl.purchase.CXFPurchaseService;
 import org.oxerr.stubhub.client.cxf.resource.AccountResource;
 import org.oxerr.stubhub.client.cxf.resource.CurrencyConversionOverrideResource;
 import org.oxerr.stubhub.client.cxf.resource.DealResource;
@@ -18,6 +19,7 @@ import org.oxerr.stubhub.client.cxf.resource.EventResource;
 import org.oxerr.stubhub.client.cxf.resource.HealthCheckResource;
 import org.oxerr.stubhub.client.cxf.resource.HoldResource;
 import org.oxerr.stubhub.client.cxf.resource.InventoryResource;
+import org.oxerr.stubhub.client.cxf.resource.PurchaseResource;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -43,6 +45,8 @@ public class CXFStubHubClient implements StubHubClient {
 	private final CXFEventService eventService;
 
 	private final CXFInventoryService inventoryService;
+
+	private final CXFPurchaseService purchaseService;
 
 	public CXFStubHubClient(UUID accountId, String token) {
 		this(accountId, token, null, config -> {});
@@ -88,6 +92,7 @@ public class CXFStubHubClient implements StubHubClient {
 		holdResource = f.create(HoldResource.class);
 		eventService = new CXFEventService(f.create(EventResource.class));
 		inventoryService = new CXFInventoryService(f.create(InventoryResource.class));
+		purchaseService = new CXFPurchaseService(f.create(PurchaseResource.class));
 	}
 
 	public AccountResource getAccountResource() {
@@ -134,6 +139,11 @@ public class CXFStubHubClient implements StubHubClient {
 	@Override
 	public CXFInventoryService inventory() {
 		return inventoryService;
+	}
+
+	@Override
+	public CXFPurchaseService purchase() {
+		return purchaseService;
 	}
 
 }
