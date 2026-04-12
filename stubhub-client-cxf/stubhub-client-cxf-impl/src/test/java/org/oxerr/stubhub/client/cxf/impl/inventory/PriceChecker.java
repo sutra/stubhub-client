@@ -83,26 +83,24 @@ class PriceChecker {
 			listCounter.incrementAndGet();
 
 			MarketplacePricingInfo mpi = inventory.getListingPricesByMarketplace().get(0);
-			var stubHubMarketplaceListPrice = mpi.getListPrice();
+			var listPrice = mpi.getListPrice();
+			var allInPrice = mpi.getAllInPrice();
 
-			if (unitCost.compareTo(BigDecimal.ZERO) <= 0 || stubHubMarketplaceListPrice.compareTo(unitCost) <= 0) {
+			if (unitCost.compareTo(BigDecimal.ZERO) <= 0 || listPrice.compareTo(unitCost) <= 0) {
 				var warn = warnCounter.incrementAndGet();
 
-				log.warn("[%s][%,d] Inventory: %d(%s), faceValue: %,.2f, unitCost: %,.2f, stubHubMarketplaceListPrice: %,.2f, allInPrice: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
+				log.warn("[%s][%,d] Inventory: %d(%s), faceValue: %,.2f, unitCost: %,.2f, listPrice: %,.2f, allInPrice: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
 					watch, index, inventory.getId(), inventory.getExternalId(),
-					faceValue, unitCost, stubHubMarketplaceListPrice,
-					mpi.getAllInPrice(),
-					inventory.getIsBroadcast(),
-					state, warn);
+					faceValue, unitCost, listPrice, allInPrice,
+					inventory.getIsBroadcast(), state, warn);
 
 				client.inventory().resource().updateInventory(inventory.getId(), createInventoryUpdateRequest(inventory));
 			}
 		} else {
-			log.debug("[%s][%,d] inventory: %d(%s), faceValue: %,.2f, unitCost: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
+			log.debug("[%s][%,d] Inventory: %d(%s), faceValue: %,.2f, unitCost: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
 				watch, index, inventory.getId(), inventory.getExternalId(),
 				faceValue, unitCost,
-				inventory.getIsBroadcast(),
-				state, warnCounter.get());
+				inventory.getIsBroadcast(), state, warnCounter.get());
 		}
 	}
 
