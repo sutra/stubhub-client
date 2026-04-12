@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.oxerr.stubhub.client.cxf</groupId>
 		<artifactId>stubhub-client-cxf</artifactId>
-		<version>0.2.0</version>
+		<version>0.2.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>stubhub-client-cxf-impl</artifactId>
 	<name>StubHub.PointOfSale.ExternalApi Client - Apache CXF - Implementation</name>
