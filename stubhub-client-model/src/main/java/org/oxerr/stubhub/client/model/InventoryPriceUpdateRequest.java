@@ -29,6 +29,13 @@ public class InventoryPriceUpdateRequest {
 	 */
 	private Boolean priceByMarketplace;
 
+	public InventoryPriceUpdateRequest() {
+	}
+
+	public InventoryPriceUpdateRequest(ApiMarketplace marketplace) {
+		this.marketplace = marketplace;
+	}
+
 	public BigDecimal getAllInPrice() {
 		return allInPrice;
 	}
