@@ -16,7 +16,7 @@ public class InventorySearchIterator extends InventoryIterator {
 		this.inventoryResource = inventoryResource;
 	}
 
-	protected InventoryExportResponse fetchPage(Long cursor) {
+	protected InventoryExportResponse fetchExportResponse(Long paginationToken) {
 		return inventoryResource.search(
 			criteria.getEventIds(),
 			criteria.getCategoryIds(),
@@ -25,7 +25,7 @@ public class InventorySearchIterator extends InventoryIterator {
 			criteria.getPurchaseStartDate(),
 			criteria.getPurchaseEndDate(),
 			criteria.getMaxPageSize(),
-			cursor,
+			paginationToken,
 			criteria.getIncludePastEvents(),
 			criteria.getIncludeBuyerCommissionsPerTicket(),
 			criteria.getEventMappingId(),
@@ -35,4 +35,5 @@ public class InventorySearchIterator extends InventoryIterator {
 			criteria.getTagValue()
 		);
 	}
+
 }
