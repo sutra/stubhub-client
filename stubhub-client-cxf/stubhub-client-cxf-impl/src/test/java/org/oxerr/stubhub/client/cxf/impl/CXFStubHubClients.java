@@ -8,6 +8,8 @@ import java.util.UUID;
 public final class CXFStubHubClients {
 
 	public static CXFStubHubClient getClient() {
+		enableLogging();
+
 		Properties props = getProps();
 		UUID accountId = UUID.fromString(props.getProperty("accountId"));
 		String apiKey = props.getProperty("token");
@@ -30,7 +32,7 @@ public final class CXFStubHubClients {
 		return props;
 	}
 
-	public static void enableLogging() {
+	private static void enableLogging() {
 		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
 		System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
 		System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true");
