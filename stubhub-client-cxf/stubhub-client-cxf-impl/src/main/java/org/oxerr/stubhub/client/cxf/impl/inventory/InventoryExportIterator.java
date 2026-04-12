@@ -16,11 +16,11 @@ public class InventoryExportIterator extends InventoryIterator {
 		this.inventoryResource = inventoryResource;
 	}
 
-	protected InventoryExportResponse fetchPage(Long cursor) {
+	protected InventoryExportResponse fetchExportResponse(Long paginationToken) {
 		return inventoryResource.export(
 			criteria.getUpdatedDateSince(),
 			criteria.getPageSize(),
-			cursor,
+			paginationToken,
 			criteria.getIncludePastEvents(),
 			criteria.getIncludeBuyerCommissionsPerTicket(),
 			criteria.getCreateDateFrom(),
