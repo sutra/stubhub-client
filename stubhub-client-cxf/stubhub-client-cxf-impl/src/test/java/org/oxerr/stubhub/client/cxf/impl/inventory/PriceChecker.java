@@ -94,7 +94,7 @@ class PriceChecker {
 					faceValue, unitCost, listPrice, allInPrice,
 					inventory.getIsBroadcast(), state, warn);
 
-				client.inventory().resource().updateInventory(inventory.getId(), createInventoryUpdateRequest(inventory));
+				updatePrices(inventory);
 			}
 		} else {
 			log.debug("[%s][%,d] Inventory: %d(%s), faceValue: %,.2f, unitCost: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
@@ -102,6 +102,10 @@ class PriceChecker {
 				faceValue, unitCost,
 				inventory.getIsBroadcast(), state, warnCounter.get());
 		}
+	}
+
+	private void updatePrices(ListingResponse inventory) {
+		client.inventory().resource().updateInventory(inventory.getId(), createInventoryUpdateRequest(inventory));
 	}
 
 	private InventoryUpdateRequest createInventoryUpdateRequest(ListingResponse inventory) {
