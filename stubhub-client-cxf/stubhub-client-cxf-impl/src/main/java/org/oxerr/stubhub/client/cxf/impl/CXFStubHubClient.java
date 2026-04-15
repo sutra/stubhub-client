@@ -11,6 +11,7 @@ import org.oxerr.stubhub.client.StubHubClient;
 import org.oxerr.stubhub.client.cxf.impl.event.CXFEventService;
 import org.oxerr.stubhub.client.cxf.impl.filter.BearerAuthFilter;
 import org.oxerr.stubhub.client.cxf.impl.inventory.CXFInventoryService;
+import org.oxerr.stubhub.client.cxf.impl.invoice.CXFInvoiceService;
 import org.oxerr.stubhub.client.cxf.impl.purchase.CXFPurchaseService;
 import org.oxerr.stubhub.client.cxf.resource.AccountResource;
 import org.oxerr.stubhub.client.cxf.resource.CurrencyConversionOverrideResource;
@@ -19,7 +20,9 @@ import org.oxerr.stubhub.client.cxf.resource.EventResource;
 import org.oxerr.stubhub.client.cxf.resource.HealthCheckResource;
 import org.oxerr.stubhub.client.cxf.resource.HoldResource;
 import org.oxerr.stubhub.client.cxf.resource.InventoryResource;
+import org.oxerr.stubhub.client.cxf.resource.InvoiceResource;
 import org.oxerr.stubhub.client.cxf.resource.PurchaseResource;
+import org.oxerr.stubhub.client.invoice.InvoiceService;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -47,6 +50,8 @@ public class CXFStubHubClient implements StubHubClient {
 	private final CXFInventoryService inventoryService;
 
 	private final CXFPurchaseService purchaseService;
+
+	private final CXFInvoiceService invoiceService;
 
 	public CXFStubHubClient(UUID accountId, String token) {
 		this(accountId, token, null, config -> {});
@@ -93,6 +98,7 @@ public class CXFStubHubClient implements StubHubClient {
 		eventService = new CXFEventService(f.create(EventResource.class));
 		inventoryService = new CXFInventoryService(f.create(InventoryResource.class));
 		purchaseService = new CXFPurchaseService(f.create(PurchaseResource.class));
+		invoiceService = new CXFInvoiceService(f.create(InvoiceResource.class));
 	}
 
 	public AccountResource getAccountResource() {
@@ -144,6 +150,11 @@ public class CXFStubHubClient implements StubHubClient {
 	@Override
 	public CXFPurchaseService purchase() {
 		return purchaseService;
+	}
+
+	@Override
+	public CXFInvoiceService invoice() {
+		return invoiceService;
 	}
 
 }
