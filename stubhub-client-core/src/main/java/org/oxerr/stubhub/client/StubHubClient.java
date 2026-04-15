@@ -2,6 +2,7 @@ package org.oxerr.stubhub.client;
 
 import org.oxerr.stubhub.client.event.EventService;
 import org.oxerr.stubhub.client.inventory.InventoryService;
+import org.oxerr.stubhub.client.invoice.InvoiceService;
 import org.oxerr.stubhub.client.purchase.PurchaseService;
 
 public interface StubHubClient {
@@ -11,5 +12,7 @@ public interface StubHubClient {
 	InventoryService inventory();
 
 	PurchaseService purchase();
+
+	InvoiceService invoice();
 
 }
