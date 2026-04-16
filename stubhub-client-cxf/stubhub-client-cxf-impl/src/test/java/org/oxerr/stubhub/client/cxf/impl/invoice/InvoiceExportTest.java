@@ -17,8 +17,10 @@ class InvoiceExportTest {
 	@Test
 	void testExport() {
 		client.invoice().streamInvoices().forEach(s -> {
-			log.info("Invoice: %s %s %,.2f %,.2f", s.getSaleDate(), s.getId(),
-				s.getTotalNetProceeds(), s.getTotalCost());
+			log.info("Invoice: %s %s %,.2f - %,.2f = %,.2f",
+				s.getSaleDate(), s.getId(),
+				s.getTotalNetProceeds(), s.getTotalCost(),
+				s.getTotalNetProceeds().subtract(s.getTotalCost()));
 		});
 	}
 

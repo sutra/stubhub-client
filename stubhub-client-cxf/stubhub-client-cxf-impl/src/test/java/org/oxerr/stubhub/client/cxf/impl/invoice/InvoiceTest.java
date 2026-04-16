@@ -26,7 +26,8 @@ class InvoiceTest {
 	@Test
 	void testGetInvoiceById() {
 		var invoice = client.invoice().resource().getInvoiceById(1L, true, true);
-		log.info("Invoice: %s %s %,.2f - %,.2f = %,.2f", invoice.getSaleDate(), invoice.getId(),
+		log.info("Invoice: %s %s %,.2f - %,.2f = %,.2f",
+			invoice.getSaleDate(), invoice.getId(),
 			invoice.getTotalNetProceeds(), invoice.getTotalCost(),
 			invoice.getTotalNetProceeds().subtract(invoice.getTotalCost()));
 	}
