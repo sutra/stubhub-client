@@ -86,7 +86,7 @@ class PriceChecker {
 			var listPrice = mpi.getListPrice();
 			var allInPrice = mpi.getAllInPrice();
 
-			if (unitCost.compareTo(BigDecimal.ZERO) <= 0 || listPrice.compareTo(unitCost) < 0) {
+			if (unitCost.compareTo(BigDecimal.ZERO) <= 0 || listPrice.compareTo(unitCost) <= 0) {
 				var warn = warnCounter.incrementAndGet();
 
 				log.warn("[%s][%,d] Inventory: %d(%s), faceValue: %,.2f, unitCost: %,.2f, listPrice: %,.2f, allInPrice: %,.2f, isBroadcast: %s, posBroadcastState: %s, warning count: %,d",
