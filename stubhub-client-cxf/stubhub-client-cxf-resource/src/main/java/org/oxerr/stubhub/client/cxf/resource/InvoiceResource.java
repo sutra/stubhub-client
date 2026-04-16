@@ -33,6 +33,24 @@ public interface InvoiceResource {
 	);
 
 	/**
+	 * Retrieves an invoice by the invoice id
+	 *
+	 * <p><b>400</b> - Bad Request
+	 * <p><b>200</b> - Success
+	 * @param invoiceId The id of the invoice (required)
+	 * @param includeMarketplaceOriginalSeating To include the original requested seating from Marketplace (optional)
+	 * @param includeBuyerCommissionsPerTicket To include buyerCommissionsArray per Ticket. Default is false (optional)
+	 * @return an invoice by the invoice id
+	 */
+	@GET
+	@Path("/{invoiceId}")
+	SaleResponse getInvoiceById(
+		@PathParam("invoiceId") Long invoiceId,
+		@QueryParam("includeMarketplaceOriginalSeating") Boolean includeMarketplaceOriginalSeating,
+		@QueryParam("includeBuyerCommissionsPerTicket") Boolean includeBuyerCommissionsPerTicket
+	);
+
+	/**
 	 * Get all invoices with pagination. Can filter off of update date from/to and create date from/to. If none is provided, the default pagination token &#x3D; 0 will be used.
 	 *
 	 * <p><b>400</b> - Bad Request
