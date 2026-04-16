@@ -22,7 +22,6 @@ import org.oxerr.stubhub.client.cxf.resource.HoldResource;
 import org.oxerr.stubhub.client.cxf.resource.InventoryResource;
 import org.oxerr.stubhub.client.cxf.resource.InvoiceResource;
 import org.oxerr.stubhub.client.cxf.resource.PurchaseResource;
-import org.oxerr.stubhub.client.invoice.InvoiceService;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
