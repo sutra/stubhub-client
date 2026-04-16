@@ -122,7 +122,7 @@ class PriceChecker {
 		// Payload: {"code":"bad_request","message":null,"errors":{"Prices[0]":["Can only update one of the following AllInPrice or ListPrice or MarketplaceMarkup"]}}
 		// request.setAllInPrice(inventory.getUnitCost());
 
-		request.setListPrice(inventory.getUnitCost());
+		request.setListPrice(inventory.getUnitCost().multiply(BigDecimal.TEN));
 
 		return request;
 	}
