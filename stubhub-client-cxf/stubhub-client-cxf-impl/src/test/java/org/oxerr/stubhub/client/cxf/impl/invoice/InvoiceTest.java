@@ -18,7 +18,9 @@ class InvoiceTest {
 	void testGetInvoicesByMarketpalceSaleId() {
 		var invoices = client.invoice().resource().getInvoicesByMarketplaceSaleId("1");
 		invoices.forEach(s -> {
-			log.info("Sale: %d", s.getId());
+			log.info("Sale: %d %,2f - %,2f = %,2f", s.getId(),
+				s.getTotalNetProceeds(), s.getTotalCost(),
+				s.getTotalNetProceeds().subtract(s.getTotalCost()));
 		});
 	}
 
