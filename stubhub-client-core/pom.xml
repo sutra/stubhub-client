@@ -15,6 +15,10 @@
 	<name>StubHub.PointOfSale.ExternalApi Client - Core</name>
 	<dependencies>
 		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-retry</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>stubhub-client-model</artifactId>
 			<version>${project.version}</version>

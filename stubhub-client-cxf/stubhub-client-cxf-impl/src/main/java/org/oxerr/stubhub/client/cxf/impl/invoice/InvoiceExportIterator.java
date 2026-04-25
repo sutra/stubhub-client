@@ -5,6 +5,8 @@ import org.oxerr.stubhub.client.cxf.resource.InvoiceResource;
 import org.oxerr.stubhub.client.invoice.InvoiceExportCriteria;
 import org.oxerr.stubhub.client.model.SaleResponse;
 
+import io.github.resilience4j.retry.Retry;
+
 public class InvoiceExportIterator extends PageIterator<SaleResponse> {
 
 	private final InvoiceExportCriteria criteria;
@@ -13,6 +15,12 @@ public class InvoiceExportIterator extends PageIterator<SaleResponse> {
 
 	protected InvoiceExportIterator(InvoiceExportCriteria criteria, InvoiceResource invoiceResource) {
 		super(criteria.getMaxPageSize() != null ? criteria.getMaxPageSize().intValue() : 100);
+		this.criteria = criteria;
+		this.invoiceResource = invoiceResource;
+	}
+
+	protected InvoiceExportIterator(InvoiceExportCriteria criteria, InvoiceResource invoiceResource, Retry retry) {
+		super(criteria.getMaxPageSize() != null ? criteria.getMaxPageSize().intValue() : 100, retry);
 		this.criteria = criteria;
 		this.invoiceResource = invoiceResource;
 	}
