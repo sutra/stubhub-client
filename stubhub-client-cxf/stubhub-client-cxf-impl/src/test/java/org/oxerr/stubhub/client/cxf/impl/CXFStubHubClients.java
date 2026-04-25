@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+
 public final class CXFStubHubClients {
 
 	public static CXFStubHubClient getClient() {
@@ -14,7 +16,7 @@ public final class CXFStubHubClients {
 		UUID accountId = UUID.fromString(props.getProperty("accountId"));
 		String apiKey = props.getProperty("token");
 
-		return new CXFStubHubClient(accountId, apiKey);
+		return new CXFStubHubClient(accountId, apiKey, createPolicy());
 	}
 
 	public static Properties getProps() {
@@ -30,6 +32,14 @@ public final class CXFStubHubClients {
 			throw new IllegalArgumentException("Read " + name + " failed.");
 		}
 		return props;
+	}
+
+	private static HTTPClientPolicy createPolicy() {
+		HTTPClientPolicy policy = new HTTPClientPolicy();
+		policy.setConnectionTimeout(120_000);
+		policy.setReceiveTimeout(300_000);
+		policy.setAllowChunking(true);
+		return policy;
 	}
 
 	private static void enableLogging() {

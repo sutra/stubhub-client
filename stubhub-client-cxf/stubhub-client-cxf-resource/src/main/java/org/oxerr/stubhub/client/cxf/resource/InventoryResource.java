@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.oxerr.stubhub.client.model.BulkInventoryRequest;
 import org.oxerr.stubhub.client.model.BulkProcessingResultSummaryResponse;
 import org.oxerr.stubhub.client.model.InventoryCreateRequest;
+import org.oxerr.stubhub.client.model.InventoryExportLeanResponse;
 import org.oxerr.stubhub.client.model.InventoryExportResponse;
 import org.oxerr.stubhub.client.model.InventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.ListingResponse;
@@ -186,6 +187,10 @@ public interface InventoryResource {
 		@QueryParam("createDateTo") OffsetDateTime createDateTo,
 		@QueryParam("updatedDateTo") OffsetDateTime updatedDateTo
 	);
+
+	@GET
+	@Path("/export/lean")
+	InventoryExportLeanResponse exportLean();
 
 	/**
 	 * Bulk Update Listings.
