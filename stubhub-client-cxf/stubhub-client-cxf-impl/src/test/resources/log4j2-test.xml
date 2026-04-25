@@ -18,7 +18,12 @@
 			<Policies>
 				<OnStartupTriggeringPolicy />
 			</Policies>
-			<DefaultRolloverStrategy fileIndex="nomax" />
+			<DefaultRolloverStrategy fileIndex="nomax">
+				<Delete basePath="${app.log.dir}" maxDepth="1">
+					<IfFileName glob="*/${app.name}-????-??-??-*.log.gz" />
+					<IfLastModified age="30d" />
+				</Delete>
+			</DefaultRolloverStrategy>
 		</RollingRandomAccessFile>
 		<RollingRandomAccessFile name="cxf"
 			fileName="${app.log.dir}/${app.name}-cxf.log"
@@ -27,7 +32,12 @@
 			<Policies>
 				<OnStartupTriggeringPolicy />
 			</Policies>
-			<DefaultRolloverStrategy fileIndex="nomax" />
+			<DefaultRolloverStrategy fileIndex="nomax">
+				<Delete basePath="${app.log.dir}" maxDepth="1">
+					<IfFileName glob="*/${app.name}-cxf-????-??-??-*.log.gz" />
+					<IfLastModified age="30d" />
+				</Delete>
+			</DefaultRolloverStrategy>
 		</RollingRandomAccessFile>
 	</Appenders>
 	<Loggers>

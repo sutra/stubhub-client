@@ -1,0 +1,112 @@
+{
+  "invoices": [
+    {
+      "id": 857526347,
+      "marketplaceSaleId": "640535791",
+      "marketplaceListingId": "12341857877",
+      "inventoryId": 906442903,
+      "inHandAt": "2026-04-24T19:00:00",
+      "seating": {
+        "section": "SRO",
+        "row": null,
+        "piggybackRow": null,
+        "seatFrom": "9001",
+        "seatTo": "9002"
+      },
+      "totalNetProceeds": 130.1000,
+      "totalCost": 130.1000,
+      "totalCharges": null,
+      "totalCredits": null,
+      "currencyCode": "USD",
+      "saleDate": "2026-04-13T18:37:22",
+      "updateDate": "2026-04-21T21:32:20.2",
+      "quantitySold": 2,
+      "quantityWasted": 0,
+      "marketplace": "StubHub",
+      "stockType": "ETicketUrl",
+      "listingNotes": [
+        {
+          "id": 0,
+          "note": "Wallet",
+          "untranslatedNote": null,
+          "type": null
+        }
+      ],
+      "posState": {
+        "fullfilmentState": "Pending",
+        "allocationState": "Pending",
+        "saleStatus": "PendingAllocation"
+      },
+      "marketplaceState": {
+        "fullfilmentState": "Fulfilled",
+        "paymentState": "Unpaid",
+        "contractState": "Contracted"
+      },
+      "vendorInfos": null,
+      "vendorAccounts": [],
+      "tickets": [],
+      "paymentStatus": "Unpaid",
+      "paymentReferenceNumber": null,
+      "lastPaymentDate": null,
+      "internalNotes": "WALLET",
+      "ticketHolder": {
+        "fullName": "Stacey Miyahira-Woo",
+        "email": "smmiyah61@rusticsunsetpartners.com",
+        "phoneNumber": null
+      },
+      "tags": [],
+      "createdDate": "2026-04-13T18:37:27.81",
+      "fulfillmentDate": "2026-04-21T21:31:07.71",
+      "originatedFromListingId": 906442903,
+      "cancellationDate": null,
+      "fulfillmentVersion": 0,
+      "marketplaceFulfillmentVersion": 0,
+      "externalId": null,
+      "fulfillmentUserId": null,
+      "autoFulfill": true,
+      "buyerCommissionOverride": null,
+      "eventMapping": {
+        "eventMappingId": null,
+        "eventName": "Ali Wong",
+        "eventDate": "2026-04-26T19:00:00",
+        "eventDateUtc": "2026-04-27T02:00:00+00:00",
+        "venueName": "The Salt River Grand Ballroom at Talking Stick Resort - Complex",
+        "isEventDateConfirmed": true,
+        "eventNote": null,
+        "city": "Scottsdale",
+        "stateProvince": "Arizona",
+        "countryCode": "US",
+        "posEventIds": null
+      },
+      "event": {
+        "id": 160549665,
+        "name": "Ali Wong",
+        "date": "2026-04-26T19:00:00",
+        "venue": "The Salt River Grand Ballroom at Talking Stick Resort - Complex",
+        "dateConfirmed": true,
+        "timeConfirmed": true,
+        "posEventIds": null,
+        "eventStatus": "Relocated"
+      },
+      "venue": {
+        "id": 26466,
+        "name": "The Salt River Grand Ballroom at Talking Stick Resort - Complex",
+        "address": null,
+        "city": "Scottsdale",
+        "state": "Arizona",
+        "country": "US",
+        "postalCode": null,
+        "timeZone": null
+      },
+      "performer": {
+        "id": 42826,
+        "name": "Ali Wong",
+        "genreName": "Comedy"
+      }
+    }
+  ],
+  "maxCreatedDate": "2026-04-21T19:01:30.65",
+  "createdDatePaginationToken": null,
+  "paginationToken": 10228694988,
+  "numberOfItems": 1
+}

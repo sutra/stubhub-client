@@ -1,0 +1,25 @@
+{
+  "inventory": [
+   {
+      "sellerAccountId": "88203c18-cc8c-4b65-8faa-3408c345ff4d",
+      "listingId": 987692221,
+      "quantity": 12,
+      "section": "123",
+      "row": "37",
+      "cost": 71.3500,
+      "price": 100.69,
+      "externalId": "2045759688418529346",
+      "eventId": 159263602,
+      "stockType": "TicketMaster Mobile",
+      "listingNotes": null,
+      "internalNotes": "",
+      "broadcastStatus": null,
+      "stubHubListingId": null,
+      "eventName": null,
+      "venueName": null,
+      "eventDate": null
+    }
+  ],
+  "paginationToken": null,
+  "numberOfItems": 1
+}

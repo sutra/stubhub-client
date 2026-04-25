@@ -19,7 +19,7 @@
 		StubHub.PointOfSale.ExternalApi Client Library for Java.
 	</description>
 	<packaging>pom</packaging>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 	<url>https://www.oxerr.org/stubhub-client</url>
 	<inceptionYear>2026</inceptionYear>
 	<properties>
