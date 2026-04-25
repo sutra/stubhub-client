@@ -7,9 +7,15 @@ import java.util.stream.StreamSupport;
 
 import org.oxerr.stubhub.client.model.ListingResponse;
 
+import io.github.resilience4j.retry.Retry;
+
 public interface InventoryService {
 
-	Iterator<ListingResponse> iterateInventories(InventorySearchCriteria criteria);
+	default Iterator<ListingResponse> iterateInventories(InventorySearchCriteria criteria) {
+		return iterateInventories(criteria, null);
+	}
+
+	Iterator<ListingResponse> iterateInventories(InventorySearchCriteria criteria, Retry retry);
 
 	default Stream<ListingResponse> streamInventories(InventorySearchCriteria criteria) {
 		var i = iterateInventories(criteria);
@@ -20,7 +26,11 @@ public interface InventoryService {
 		return iterateInventories(new InventoryExportCriteria());
 	}
 
-	Iterator<ListingResponse> iterateInventories(InventoryExportCriteria criteria);
+	default Iterator<ListingResponse> iterateInventories(InventoryExportCriteria criteria) {
+		return iterateInventories(criteria, null);
+	}
+
+	Iterator<ListingResponse> iterateInventories(InventoryExportCriteria criteria, Retry retry);
 
 	default Stream<ListingResponse> streamInventories() {
 		return streamInventories(new InventoryExportCriteria());

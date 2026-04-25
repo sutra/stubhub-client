@@ -7,13 +7,19 @@ import java.util.stream.StreamSupport;
 
 import org.oxerr.stubhub.client.model.SaleResponse;
 
+import io.github.resilience4j.retry.Retry;
+
 public interface InvoiceService {
 
 	default Iterator<SaleResponse> iterateInvoices() {
 		return iterateInvoices(new InvoiceExportCriteria());
 	}
 
-	Iterator<SaleResponse> iterateInvoices(InvoiceExportCriteria criteria);
+	default Iterator<SaleResponse> iterateInvoices(InvoiceExportCriteria criteria) {
+		return iterateInvoices(criteria, null);
+	}
+
+	Iterator<SaleResponse> iterateInvoices(InvoiceExportCriteria criteria, Retry retry);
 
 	default Stream<SaleResponse> streamInvoices() {
 		return streamInvoices(new InvoiceExportCriteria());

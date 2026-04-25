@@ -34,6 +34,10 @@
 			<artifactId>jackson-jakarta-rs-json-provider</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-retry</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.oxerr.stubhub.client</groupId>
 			<artifactId>stubhub-client-core</artifactId>
 			<version>${project.version}</version>

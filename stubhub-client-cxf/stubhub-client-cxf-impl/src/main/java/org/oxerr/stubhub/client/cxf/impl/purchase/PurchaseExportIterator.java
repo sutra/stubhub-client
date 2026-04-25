@@ -5,6 +5,8 @@ import org.oxerr.stubhub.client.cxf.resource.PurchaseResource;
 import org.oxerr.stubhub.client.model.PurchaseResponse;
 import org.oxerr.stubhub.client.purchase.PurchaseExportCriteria;
 
+import io.github.resilience4j.retry.Retry;
+
 public class PurchaseExportIterator extends PageIterator<PurchaseResponse> {
 
 	private final PurchaseExportCriteria criteria;
@@ -13,6 +15,12 @@ public class PurchaseExportIterator extends PageIterator<PurchaseResponse> {
 
 	protected PurchaseExportIterator(PurchaseExportCriteria criteria, PurchaseResource purchaseResource) {
 		super(criteria.getMaxPageSize() != null ? criteria.getMaxPageSize().intValue() : 100);
+		this.criteria = criteria;
+		this.purchaseResource = purchaseResource;
+	}
+
+	protected PurchaseExportIterator(PurchaseExportCriteria criteria, PurchaseResource purchaseResource, Retry retry) {
+		super(criteria.getMaxPageSize() != null ? criteria.getMaxPageSize().intValue() : 100, retry);
 		this.criteria = criteria;
 		this.purchaseResource = purchaseResource;
 	}
