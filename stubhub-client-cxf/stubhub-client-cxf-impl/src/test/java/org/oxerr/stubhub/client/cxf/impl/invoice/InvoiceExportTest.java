@@ -25,10 +25,10 @@ class InvoiceExportTest {
 			.streamInvoices()
 			.sorted(Comparator.comparing(SaleResponse::getCreatedDate))
 			.forEach(s -> {
-				log.info("Invoice %d: %s(%s) %s %,.2f - %,.2f = %,.2f",
+				log.info("Invoice %d: %s(%s) %s(%s) %,.2f - %,.2f = %,.2f",
 					counter.incrementAndGet(),
 					s.getSaleDate(), s.getEvent().getDate(),
-					s.getId(),
+					s.getId(), s.getMarketplaceSaleId(),
 					s.getTotalNetProceeds(), s.getTotalCost(),
 					s.getTotalNetProceeds().subtract(s.getTotalCost()));
 			});
