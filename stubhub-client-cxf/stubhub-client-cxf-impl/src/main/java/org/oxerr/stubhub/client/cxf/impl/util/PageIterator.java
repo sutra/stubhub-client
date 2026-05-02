@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,7 @@ import jakarta.ws.rs.client.ResponseProcessingException;
 
 public abstract class PageIterator<T> implements Iterator<T> {
 
-	private final Logger log = LogManager.getLogger();
+	private final Logger log = LogManager.getFormatterLogger();
 
 	private final int pageSize;
 	private final Retry retry;
@@ -23,6 +24,7 @@ public abstract class PageIterator<T> implements Iterator<T> {
 	private Iterator<T> current = Collections.emptyIterator();
 	private boolean finished;
 	private int loadedPageCount;
+	private StopWatch stopWatch = new StopWatch();
 
 	protected PageIterator(int pageSize) {
 		this(pageSize, defaultRetry());
@@ -56,13 +58,25 @@ public abstract class PageIterator<T> implements Iterator<T> {
 
 	private void loadIfNeeded() {
 		if (!finished && !current.hasNext()) {
+			if (!stopWatch.isStarted()) {
+				stopWatch.start();
+			}
+
+			long startTime = System.nanoTime();
 			Page<T> page = fetchPageWithRetry(this.paginationToken);
+			long elapsedNanos = System.nanoTime() - startTime;
+
 			paginationToken = page.getPaginationToken();
 			current = page.getItems().iterator();
 			finished = page.getNumberOfItems() < pageSize;
 			loadedPageCount++;
-			log.trace("loaded page: loadedPageCount={}, cursor={}, numberOfItems={}, finished={}",
-				loadedPageCount, paginationToken, page.getNumberOfItems(), finished);
+
+			log.debug(
+				"loaded page: cursor=%,d, numberOfItems=%,d, timeUsed=%,d ms,"
+					+ " loadedPageCount=%,d, elapsed=%s, avgTimePerPage=%,d ms",
+				paginationToken, page.getNumberOfItems(),
+				elapsedNanos / 1_000_000, loadedPageCount, stopWatch,
+				stopWatch.getTime() / loadedPageCount);
 		}
 
 	}
