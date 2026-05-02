@@ -3,6 +3,7 @@ package org.oxerr.stubhub.client.cxf.impl.invoice;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Disabled;
@@ -25,7 +26,8 @@ class InvoiceExportTest {
 			.streamInvoices()
 			.sorted(Comparator.comparing(SaleResponse::getCreatedDate))
 			.forEach(s -> {
-				log.info("Invoice %d: %s(%s) %s(%s) %,.2f - %,.2f = %,.2f",
+				Level level = s.getCreatedDate().isAfter(s.getEvent().getDate()) ? Level.WARN : Level.INFO;
+				log.log(level, "Invoice %d: %s(%s) %s(%s) %,.2f - %,.2f = %,.2f",
 					counter.incrementAndGet(),
 					s.getSaleDate(), s.getEvent().getDate(),
 					s.getId(), s.getMarketplaceSaleId(),
