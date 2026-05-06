@@ -36,8 +36,8 @@ public final class CXFStubHubClients {
 
 	private static HTTPClientPolicy createPolicy() {
 		HTTPClientPolicy policy = new HTTPClientPolicy();
-		policy.setConnectionTimeout(120_000);
-		policy.setReceiveTimeout(300_000);
+		policy.setConnectionTimeout(60_000);
+		policy.setReceiveTimeout(60_000);
 		policy.setAllowChunking(true);
 		return policy;
 	}

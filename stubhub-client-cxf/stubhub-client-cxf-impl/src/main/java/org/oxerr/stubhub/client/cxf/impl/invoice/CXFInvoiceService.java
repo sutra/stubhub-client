@@ -7,6 +7,8 @@ import org.oxerr.stubhub.client.invoice.InvoiceExportCriteria;
 import org.oxerr.stubhub.client.invoice.InvoiceService;
 import org.oxerr.stubhub.client.model.SaleResponse;
 
+import io.github.resilience4j.retry.Retry;
+
 public class CXFInvoiceService implements InvoiceService {
 
 	private final InvoiceResource invoiceResource;
@@ -20,8 +22,8 @@ public class CXFInvoiceService implements InvoiceService {
 	}
 
 	@Override
-	public Iterator<SaleResponse> iterateInvoices(InvoiceExportCriteria criteria) {
-		return new InvoiceExportIterator(criteria, invoiceResource);
+	public Iterator<SaleResponse> iterateInvoices(InvoiceExportCriteria criteria, Retry retry) {
+		return new InvoiceExportIterator(criteria, invoiceResource, retry);
 	}
 
 }

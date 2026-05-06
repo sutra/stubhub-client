@@ -19,7 +19,7 @@
 		StubHub.PointOfSale.ExternalApi Client Library for Java.
 	</description>
 	<packaging>pom</packaging>
-	<version>0.3.0</version>
+	<version>0.3.1</version>
 	<url>https://www.oxerr.org/stubhub-client</url>
 	<inceptionYear>2026</inceptionYear>
 	<properties>
@@ -130,7 +130,11 @@
 				<artifactId>jsr305</artifactId>
 				<version>3.0.2</version>
 			</dependency>
-
+			<dependency>
+				<groupId>io.github.resilience4j</groupId>
+				<artifactId>resilience4j-retry</artifactId>
+				<version>2.4.0</version>
+			</dependency>
 			<dependency>
 				<groupId>nl.jqno.equalsverifier</groupId>
 				<artifactId>equalsverifier</artifactId>

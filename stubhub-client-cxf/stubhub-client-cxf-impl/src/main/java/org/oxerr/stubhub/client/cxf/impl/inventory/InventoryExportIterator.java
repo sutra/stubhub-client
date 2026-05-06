@@ -4,6 +4,8 @@ import org.oxerr.stubhub.client.cxf.resource.InventoryResource;
 import org.oxerr.stubhub.client.inventory.InventoryExportCriteria;
 import org.oxerr.stubhub.client.model.InventoryExportResponse;
 
+import io.github.resilience4j.retry.Retry;
+
 public class InventoryExportIterator extends InventoryIterator {
 
 	private final InventoryExportCriteria criteria;
@@ -12,6 +14,12 @@ public class InventoryExportIterator extends InventoryIterator {
 
 	public InventoryExportIterator(InventoryExportCriteria criteria, InventoryResource inventoryResource) {
 		super(criteria.getPageSize() != null ? criteria.getPageSize().intValue() : 100);
+		this.criteria = criteria;
+		this.inventoryResource = inventoryResource;
+	}
+
+	public InventoryExportIterator(InventoryExportCriteria criteria, InventoryResource inventoryResource, Retry retry) {
+		super(criteria.getPageSize() != null ? criteria.getPageSize().intValue() : 100, retry);
 		this.criteria = criteria;
 		this.inventoryResource = inventoryResource;
 	}
