@@ -8,6 +8,8 @@ import org.oxerr.stubhub.client.inventory.InventorySearchCriteria;
 import org.oxerr.stubhub.client.inventory.InventoryService;
 import org.oxerr.stubhub.client.model.ListingResponse;
 
+import io.github.resilience4j.retry.Retry;
+
 public class CXFInventoryService implements InventoryService {
 
 	private final InventoryResource inventoryResource;
@@ -21,13 +23,13 @@ public class CXFInventoryService implements InventoryService {
 	}
 
 	@Override
-	public InventorySearchIterator iterateInventories(InventorySearchCriteria criteria) {
-		return new InventorySearchIterator(criteria, inventoryResource);
+	public InventorySearchIterator iterateInventories(InventorySearchCriteria criteria, Retry retry) {
+		return new InventorySearchIterator(criteria, inventoryResource, retry);
 	}
 
 	@Override
-	public Iterator<ListingResponse> iterateInventories(InventoryExportCriteria criteria) {
-		return new InventoryExportIterator(criteria, inventoryResource);
+	public Iterator<ListingResponse> iterateInventories(InventoryExportCriteria criteria, Retry retry) {
+		return new InventoryExportIterator(criteria, inventoryResource, retry);
 	}
 
 }
