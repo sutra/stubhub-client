@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
+import jakarta.ws.rs.InternalServerErrorException;
 import jakarta.ws.rs.client.ResponseProcessingException;
 
 public abstract class PageIterator<T> implements Iterator<T> {
@@ -38,7 +39,10 @@ public abstract class PageIterator<T> implements Iterator<T> {
 	private static Retry defaultRetry() {
 		RetryConfig config = RetryConfig.custom()
 			.maxAttempts(3)
-			.retryExceptions(ResponseProcessingException.class)
+			.retryExceptions(
+				ResponseProcessingException.class,
+				InternalServerErrorException.class
+			)
 			.failAfterMaxAttempts(true)
 			.build();
 		return Retry.of("pageIteratorFetchPage", config);
