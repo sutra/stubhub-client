@@ -49,7 +49,7 @@ class Lister {
 	void list(ListingResponse listingResponse) {
 		log.info("Listing listing %,d.", listingResponse.getId());
 		log.info("Listing listing %,d: eventId=%,d.", listingResponse.getId(), listingResponse.getEvent().getId());
-		var updateRequest = updateRequest(listingResponse);
+		var updateRequest = updateRequest();
 		ListingResponse updatedListingResponse = inventoryService.resource()
 			.updateInventory(listingResponse.getId(), updateRequest);
 		log.info("Listing listing %,d completed. Current posBroadcastState: %s.",
@@ -57,7 +57,7 @@ class Lister {
 			updatedListingResponse.getListingStatusByMarketplace().get(0).getPosBroadcastState());
 	}
 
-	private InventoryUpdateRequest updateRequest(ListingResponse listing) {
+	private InventoryUpdateRequest updateRequest() {
 		InventoryUpdateRequest inventoryUpdateRequest = new InventoryUpdateRequest();
 		inventoryUpdateRequest.setBroadcastStatuses(List.of(broadcastUpdateRequest()));
 		return inventoryUpdateRequest;
