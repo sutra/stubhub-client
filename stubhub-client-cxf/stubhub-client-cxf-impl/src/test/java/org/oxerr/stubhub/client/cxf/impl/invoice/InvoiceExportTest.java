@@ -27,11 +27,11 @@ class InvoiceExportTest {
 			.sorted(Comparator.comparing(SaleResponse::getCreatedDate))
 			.forEach(s -> {
 				Level level = s.getCreatedDate().isAfter(s.getEvent().getDate()) ? Level.WARN : Level.INFO;
-				log.log(level, "Invoice %d: %s(%s) %s(%s) eventId=%s %,.2f - %,.2f = %,.2f",
+				log.log(level, "Invoice %d: %s(%s) %s(%s) eventId=%s eventName=%s %,.2f - %,.2f = %,.2f",
 					counter.incrementAndGet(),
 					s.getSaleDate(), s.getEvent().getDate(),
 					s.getId(), s.getMarketplaceSaleId(),
-					s.getEvent().getId(),
+					s.getEvent().getId(), s.getEventMapping().getEventName(),
 					s.getTotalNetProceeds(), s.getTotalCost(),
 					s.getTotalNetProceeds().subtract(s.getTotalCost()));
 			});
