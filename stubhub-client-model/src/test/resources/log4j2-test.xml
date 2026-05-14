@@ -3,7 +3,7 @@
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
 			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
-			<PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
+			<PatternLayout pattern="%style{%d{HH:mm:ss}}{cyan} %highlight{%-5p} %style{[%t]}{blue} %style{%C{1}}{magenta} %style{(%F:%L)}{yellow} - %m%n" />
 		</Console>
 		<RollingRandomAccessFile name="file"
 			fileName="target/log/stubhub-client-model.log"

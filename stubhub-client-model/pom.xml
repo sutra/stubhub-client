@@ -30,10 +30,23 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<dependencies>
+				<dependency>
+					<groupId>org.reflections</groupId>
+					<artifactId>reflections</artifactId>
+					<scope>test</scope>
+				</dependency>
+
 				<!-- Java 8 Date/time -->
 				<dependency>
 					<groupId>com.fasterxml.jackson.datatype</groupId>
 					<artifactId>jackson-datatype-jsr310</artifactId>
+					<scope>test</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>nl.jqno.equalsverifier</groupId>
+					<artifactId>equalsverifier</artifactId>
+					<scope>test</scope>
 				</dependency>
 			</dependencies>
 		</profile>
