@@ -17,6 +17,8 @@ import org.oxerr.stubhub.client.model.InventoryBroadcastUpdateRequest;
 import org.oxerr.stubhub.client.model.InventoryExportLeanResponse;
 import org.oxerr.stubhub.client.model.InventoryUpdateRequest;
 import org.oxerr.stubhub.client.model.ListingLeanResponse;
+import org.oxerr.stubhub.client.model.ListingResponse;
+import org.oxerr.stubhub.client.model.MarketplaceListingStatus;
 
 /**
  * Delist all listings via the
@@ -56,7 +58,12 @@ class DelisterViaSingleUpdate {
 			listing.getQuantity(),
 			listing.getCost(), listing.getPrice());
 		InventoryUpdateRequest inventoryUpdateRequest = updateRequest();
-		inventoryService.resource().updateInventory(listing.getListingId(), inventoryUpdateRequest);
+		ListingResponse updated = inventoryService.resource().updateInventory(listing.getListingId(), inventoryUpdateRequest);
+		log.info("Delisted id: %s(%s), quantity: %d, cost: %,2f, price: %,2f, broadcast state: %s",
+			listing.getListingId(), listing.getExternalId(),
+			listing.getQuantity(),
+			listing.getCost(), listing.getPrice(),
+			updated.getListingStatusByMarketplace().stream().map(MarketplaceListingStatus::getPosBroadcastState).toList());
 	}
 
 	private InventoryUpdateRequest updateRequest() {
