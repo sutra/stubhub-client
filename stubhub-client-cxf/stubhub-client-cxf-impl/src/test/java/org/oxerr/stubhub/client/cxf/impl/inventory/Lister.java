@@ -57,13 +57,13 @@ class Lister {
 			updatedListingResponse.getListingStatusByMarketplace().get(0).getPosBroadcastState());
 	}
 
-	private InventoryUpdateRequest updateRequest() {
+	public static InventoryUpdateRequest updateRequest() {
 		InventoryUpdateRequest inventoryUpdateRequest = new InventoryUpdateRequest();
 		inventoryUpdateRequest.setBroadcastStatuses(List.of(broadcastUpdateRequest()));
 		return inventoryUpdateRequest;
 	}
 
-	private InventoryBroadcastUpdateRequest broadcastUpdateRequest() {
+	public static InventoryBroadcastUpdateRequest broadcastUpdateRequest() {
 		var broadcastUpdateRequest =  new InventoryBroadcastUpdateRequest();
 		broadcastUpdateRequest.setMarketplace(ApiMarketplace.STUB_HUB);
 		broadcastUpdateRequest.setPosBroadcastState(ApiPosBroadcastState.LIST);

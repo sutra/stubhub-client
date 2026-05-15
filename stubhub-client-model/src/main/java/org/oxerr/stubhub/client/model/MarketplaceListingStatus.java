@@ -2,6 +2,8 @@ package org.oxerr.stubhub.client.model;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class MarketplaceListingStatus {
 
 	private String listingStatus;
@@ -72,6 +74,11 @@ public class MarketplaceListingStatus {
 
 	public void setMarketPlaceEventIdOverride(String marketPlaceEventIdOverride) {
 		this.marketPlaceEventIdOverride = marketPlaceEventIdOverride;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

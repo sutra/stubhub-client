@@ -17,7 +17,23 @@ class InventoryTest {
 	@Test
 	void testGetInventory() {
 		long inventoryId = 1L;
-		var inventory = client.inventory().resource().getInventory(inventoryId, false);
-		log.info("inventory: %s", inventory);
+		var inventories = client.inventory().resource().getInventory(inventoryId, false);
+		log.info("inventories: %s", inventories);
+		inventories.forEach(inventory -> {
+			inventory.getListingStatusByMarketplace().forEach(marketplaceListingStatus -> {
+				log.info("marketplaceListingStatus: %s", marketplaceListingStatus);
+			});
+		});
 	}
+
+	/**
+	 * List one listing. Run this test to list one listing.
+	 */
+	@Disabled("Requires authentication")
+	@Test
+	void testList() {
+		long inventoryId = 1L;
+		client.inventory().resource().updateInventory(inventoryId, Lister.updateRequest());
+	}
+
 }
