@@ -20,6 +20,15 @@ public class MarketplaceListingStatus {
 
 	private String marketPlaceEventIdOverride;
 
+	/**
+	 * Potentially values include:
+	 * <ul>
+	 * <li>FullySold</li>
+	 * <li>ListingFailed</li>
+	 * </ul>
+	 *
+	 * @return the listing status
+	 */
 	public String getListingStatus() {
 		return listingStatus;
 	}
